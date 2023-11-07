@@ -85,7 +85,8 @@ sold_file_path=os.path.join('data', 'sold.csv')
 bought_file_path=os.path.join('data', 'bought.csv')
 def add_sold_product(product_name,sell_price):
       print("function:add_sold_product/product_name:",product_name)#w?y
-      print('function:add_sold_product/sell_price:',sell_price)#w?y      
+      print('function:add_sold_product/sell_price:',sell_price)#w?y 
+      current_day=date.today()     
       #open sold.csv
       with open (sold_file_path,'r') as sold_file:#w?y
            sold_reader= csv.DictReader(sold_file)#w?y
@@ -125,7 +126,7 @@ def add_sold_product(product_name,sell_price):
            product_name_1=product_name
            #print('r 126 product_name_1:',product_name_1)#w?yes
            expiration_date_min=datetime.max
-           print('r 141  expiration_date_min',expiration_date_min)#w?y
+           #print('r 141  expiration_date_min',expiration_date_min)#w?y
            #stap 3:go through the hole bought.csv and make a selection of items only with product_name=appel
            appel_list=[]
            for eachItem_appel_list in bought_rows:
@@ -138,32 +139,40 @@ def add_sold_product(product_name,sell_price):
                    #date_str="2010-12-31"
                    date_format="%Y-%m-%d"
                    
-                   #expiration_date_min=datetime.max
-                   #print('r 141  expiration_date_min',expiration_date_min)#w?y
-                   #expiration_date_min=datetime.strptime( date_str,date_format)
-                   #print('r 141 expiration_date_min:',expiration_date_min)#w? almost because it also include hours
-                   #print('r142 expiration_date_min:',type(expiration_date_min))#y
-                   #formatted_time=expiration_date_min.strftime("%Y-%m-%d")
-                   #print('r 144 formatted_time:',formatted_time)
-                   #print('r 145 formatted_time ',type(formatted_time))
-
                    for eachItem_appel_list_1 in appel_list:
-                       print("r150 eachItem_appel_list_1['expiration_date'] ",eachItem_appel_list_1['expiration_date'])#w?y
-                       #print("r149 eachItem_appel_list_1['expiration_date']",type(eachItem_appel_list_1['expiration_date']) ) #let op type is string so convert into type datetime                  
+                       #print("r142 eachItem_appel_list_1['expiration_date'] ",eachItem_appel_list_1['expiration_date'])#w?y
+                       #print("r143 eachItem_appel_list_1['expiration_date']",type(eachItem_appel_list_1['expiration_date']) ) #let op type is string so convert into type datetime                  
                        eachItem_appel_list_1_convert=datetime.strptime(eachItem_appel_list_1['expiration_date'],date_format)
-                       print('r 153 (waarde) eachItem_appel_list_1_convert:', eachItem_appel_list_1_convert)#w?y
-                       print('r 154  type(eachItem_appel_list_1_convert):', type(eachItem_appel_list_1_convert))#w?y
-                       #if eachItem_appel_list_1_convert < expiration_date_min:
-                            #expiration_date_min=eachItem_appel_list_1_convert 
-                            
-                       #print('155 expiration_date_min' ,expiration_date_min)
+                       #print('r 145 (waarde) eachItem_appel_list_1_convert:', eachItem_appel_list_1_convert)#w?y
+                       #print('r 146  type(eachItem_appel_list_1_convert):', type(eachItem_appel_list_1_convert))#w?y
+                       if eachItem_appel_list_1_convert < expiration_date_min:
+                            expiration_date_min=eachItem_appel_list_1_convert 
+                            buy_id_min_expDate= eachItem_appel_list_1['id']                     
+                   print('149 expiration_date_min' ,expiration_date_min)
+                   print('151 buy_id_min_expDate:', buy_id_min_expDate)
                        #print the expiration_date of the FIRST row of the list
 
                        #print('expiration_date_min', expiration_date_min)
                        #if eachItem_appel_list_1 ['expiration_date']
-
+                   print('id', new_sold_row_id) #4 w?y
+                   print('bought_id',buy_id_min_expDate)#3 w?y
+                   print('sell_date', current_day)#6-11-2023  w?y
+                   print('sell_price', sell_price)#2.0  w?y
+                  
+                   new_row={
+                          'id': new_sold_row_id,
+                          'bought_id': buy_id_min_expDate,
+                          'sell_date': current_day,
+                          'sell_price':sell_price
+                            }  
+                      
+                   sold_rows.append(new_row)#w?y
+                   print('r 170 rows ', sold_rows)#w?y good job
            #
-
+                   with open (sold_file_path,'w', newline='') as file:#w?yes wel done
+                        writer=csv.DictWriter(file,fieldnames=reader.fieldnames)
+                        writer.writeheader()
+                        writer.writerows(sold_rows)
 
 
            return
