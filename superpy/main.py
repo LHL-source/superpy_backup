@@ -63,23 +63,25 @@ def main():
     #voeg de argumenten toe aan profit_group
     profit_group.add_argument("--today", type=str, help="Profit of today")
 
-    args = parser.parse_args() 
-    current_day=datetime.today()
-    print('r 68 current_day:',current_day)
-    choosen_date_byUser = current_day
-    print('r 70 choosen_date_byUser:',choosen_date_byUser)
-    choosen_date_byUser_1 = None
-
-    if args.advance_time:
-         print('go to def advance_time() and print args.advance_time: ', args.advance_time)
-         choosen_date_byUser_1 = advance_time(args.advance_time)
-         print("choosen_date_byUser_1:",choosen_date_byUser_1)#works? y
-         print('choosen_date_byUser_1',type(choosen_date_byUser_1))#w?y
+    args = parser.parse_args()
     
-    elif args.command =='buy':#w?yes
-           print('go to def add_buy_product()')
-           add_buy_product(args.product_name,args.choosen_date_byUser,args.price,args.expiration_date)#w?y
-           print('oke (of buy)')
+    
+    mainPy_get_internal_date=get_internal_date()#w?y
+    #print('r17 mainPy_get_internal_date()',mainPy_get_internal_date)#w?y
+    #print('r18 type(mainPy_get_internal_date)',type(mainPy_get_internal_date))#w?y
+
+    if args.advance_time :
+         mainPy_args_advance_time=advance_time(args.advance_time)
+         #print(' mainPy_args_advance_time', mainPy_args_advance_time)
+         #print('type(mainPy_args_advance_time)',type(mainPy_args_advance_time))
+    else:
+         pass
+         
+    if args.command =='buy':#w?yes
+        pass
+        #print('go to def add_buy_product()')
+        #add_buy_product(args.product_name,choosen_date_byUser_1,args.price,args.expiration_date)#w?y
+        #print('oke (of buy)')
 
            #add_buy_product(args.product_name,args.price)#uitgehaald:,args.expiration_date
     elif args.command =='sell':#works? yes

@@ -6,45 +6,101 @@ import csv
 import os
 import argparse
 
+def string_to_datetime(date_string, format='%Y-%m-%d'):#w?y
+     
 
-#initiate 'current_day' and 'choosen_date_byUser'
-current_day=datetime.today()
-print('r11 current_day:',current_day)
-print('r12 type(current_day)', current_day)
-#choosen_date_byUser=current_day
-#print('14 choosen_date_byUser:',choosen_date_byUser)
-#print('r15 type(choosen_date_byUser)',choosen_date_byUser )
+     """
+     Convert a string to a datetime object.
+     Parameters:
+     -date_string(str):The input date string.
+     -format(str):The format of the date string(default is '%Y-%m-%d')
+     Returns:
+     -datetime objects:The converted datetime object.
+     """
+     return datetime.strptime(date_string, format)
 
-#check if --advance_date is provided
-#if args.advance_time:
-     #choosen_date_byUser=advance_time(args.advance_time)
+def datetime_to_string(date_object,format='%Y-%m-%d'):#w?y
+     """
+     Convert a datetime object to a string
+     Parameters:
+     -date_object (datetime):The input datetime object.
+     -format(str):The format of the output date string(default is '%Y-%m-%d')
+     Return:
+     -str: The formattewd date string.
+     """
+     return date_object.strftime(format)
+# make function:internal_date()
+#internal_date_file_path=os.path.join('data', 'internal_date.csv')
+def get_internal_date ():
+    internal_date_file_path=os.path.join('data', 'internal_date.csv')
+    #check if the file exists
+    if os.path.exists(internal_date_file_path):#w?y
+         with open(internal_date_file_path,'r',) as file:
+              reader=csv.DictReader(file)
+              row=next(reader, None)
+              if row and 'internal_date' in row:
+                    internal_date =string_to_datetime(row['internal_date'])
+                    #print('internal_date',internal_date)
+                    #print('type(internal_date)',type(internal_date))
+                    return internal_date
+    return date.today()  
+        
+    #internal_date=date.today()
+    return #internal_date
 
+
+#function date_type convert:a string into datetime object into string (again)
 def date_type(date_string,):#w?y
     try:
-        date_object=datetime.strptime(date_string,'%Y-%m-%d')
-        formated_date_object=date_object.strftime('%Y-%m-%d')
+        date_object=datetime.strptime(date_string,'%Y-%m-%d')#object datetime
+        formated_date_object=date_object.strftime('%Y-%m-%d')#convert object datetime into string
+        
         return formated_date_object
     except ValueError:
         raise argparse.ArgumentTypeError("Invalid date format. Use 'year-month-day' (e.g.,'2023-10-15).")
 
-
 def advance_time(advance_time):#w?yes
     current_day=date.today()
     future_date=current_day + timedelta(advance_time)
-    return  future_date #w?y
+
+    # # Update the internal date in the CSV file
+    internal_date_file_path=os.path.join('data', 'internal_date.csv')
+    #print('r70/funcPY internal_date_file_path:', os.path.abspath(internal_date_file_path))  # Add this line
+    existing_content=[]
+    #Read the existing content
+    if os.path.exists(internal_date_file_path):
+         with open(internal_date_file_path,'r',newline='')as file:
+              reader=csv.DictReader(file)
+              existing_content=list(reader)
+              print('existing_content',existing_content)
+
+    #update the content
+    if existing_content:
+              print('existing_content is trufy')
+              existing_content[0]['internal_date']=datetime_to_string(future_date)
+              print('datetime_to_string(future_date)',datetime_to_string(future_date))
+              print('existing_content[0][''internal_date'']',existing_content[0]['internal_date'])
+             #existing_content[0]['internal_date']=datetime_to_string(future_date)
+    
+    #write the updated content back to the file
+    with open(internal_date_file_path,'w', newline='') as file:
+         writer=csv.DictWriter(file,fieldnames=['internal_date'])
+         writer.writeheader()
+         writer.writerows(existing_content)
+    return future_date #w?y
 
 
 #advance_time(2)#w?y
 #define file_path
 file_path=os.path.join('data','bought.csv')
-def add_buy_product(product_name,buy_date,buy_price,expiration_date,):
+def add_buy_product(product_name,choosen_date_byUser_1,buy_price,expiration_date,):
   print('r 41 product_name',product_name)
-  print('r 42 buy_date',buy_date)# was buy_date.strftime('%Y-%m-%d')
+  print('r 42choosen_date_byUser_1',choosen_date_byUser_1)# was buy_date.strftime('%Y-%m-%d')
   print('r 41 buy_price ',buy_price)
   print('r 41 expiration_date ',expiration_date)
   
-  if buy_date is None:
-        buy_date = datetime.today()
+  #if buy_date is None:
+       # buy_date = datetime.today()
   
   with open (file_path,'r') as file:
     reader=csv.DictReader(file)
@@ -71,7 +127,7 @@ def add_buy_product(product_name,buy_date,buy_price,expiration_date,):
     new_row ={
     'id':new_row_id,
     'product_name':product_name,
-    'buy_date':date_type(buy_date.strftime('%Y-%m-%d')),#date_type(formated_currentday_object),oude gegeven:date_type(buy_date.strftime('%Y-%m-%d'))
+    'buy_date':date_type(choosen_date_byUser_1.strftime('%Y-%m-%d')),#date_type(formated_currentday_object),oude gegeven:date_type(buy_date.strftime('%Y-%m-%d'))
     'buy_price':buy_price,
     'expiration_date':expiration_date,
     
