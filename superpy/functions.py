@@ -31,7 +31,7 @@ def datetime_to_string(date_object,format='%Y-%m-%d'):#w?y
      return date_object.strftime(format)
 # make function:internal_date()
 #internal_date_file_path=os.path.join('data', 'internal_date.csv')
-def get_internal_date ():
+def get_internal_date ():#w?y
     internal_date_file_path=os.path.join('data', 'internal_date.csv')
     #check if the file exists
     if os.path.exists(internal_date_file_path):#w?y
@@ -40,13 +40,23 @@ def get_internal_date ():
               row=next(reader, None)
               if row and 'internal_date' in row:
                     internal_date =string_to_datetime(row['internal_date'])
-                    #print('internal_date',internal_date)
-                    #print('type(internal_date)',type(internal_date))
                     return internal_date
-    return date.today()  
-        
+              
+              else:            
+                   with open (internal_date_file_path,'w',newline='') as file:  
+                        writer=csv.DictWriter(file,fieldnames=['internal_date'])
+                        writer.writeheader()
+                        writer.writerow({'internal_date': datetime_to_string(date.today())})
+              return datetime_to_string(date.today())  
+
+func_py_get_internal_date=get_internal_date()
+print('func.py_get_internal_date',func_py_get_internal_date)
+print(type(func_py_get_internal_date))
+#print("func_py_get_internal_date['internal_date']",func_py_get_internal_date['internal_date'])
+#print('',type(func_py_get_internal_date['internal_date']))
+      
     #internal_date=date.today()
-    return #internal_date
+    #return #internal_date
 
 
 #function date_type convert:a string into datetime object into string (again)
