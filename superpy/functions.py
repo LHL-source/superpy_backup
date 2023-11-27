@@ -70,8 +70,8 @@ def date_type(date_string,):#w?y
         raise argparse.ArgumentTypeError("Invalid date format. Use 'year-month-day' (e.g.,'2023-10-15).")
 
 def advance_time(advance_time):#w?yes
-    current_day=date.today()
-    future_date=current_day + timedelta(advance_time)
+    #current_day=date.today()
+    #future_date=current_day + timedelta(advance_time)
 
     # # Update the internal date in the CSV file
     internal_date_file_path=os.path.join('data', 'internal_date.csv')
@@ -87,6 +87,11 @@ def advance_time(advance_time):#w?yes
     #update the content
     if existing_content:
               print('existing_content is trufy')
+              #get the existing internalt_date
+              existing_internal_date=string_to_datetime(existing_content[0]['internal_date'])
+              #calculate the future date based on the existing date
+              future_date=existing_internal_date+timedelta(advance_time)
+              #update the internal_date value
               existing_content[0]['internal_date']=datetime_to_string(future_date)
               print('datetime_to_string(future_date)',datetime_to_string(future_date))
               print('existing_content[0][''internal_date'']',existing_content[0]['internal_date'])
@@ -98,6 +103,9 @@ def advance_time(advance_time):#w?yes
          writer.writeheader()
          writer.writerows(existing_content)
     return future_date #w?y
+    #else:
+         #pass
+         #return None
 
 
 #advance_time(2)#w?y
