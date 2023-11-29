@@ -79,8 +79,8 @@ def main():
          
     if args.command =='buy':#w?yes
         pass
-        #print('go to def add_buy_product()')
-        #add_buy_product(args.product_name,choosen_date_byUser_1,args.price,args.expiration_date)#w?y
+        print('go to def add_buy_product()')
+        add_buy_product(args.product_name,args.price,args.expiration_date)#w?y
         #print('oke (of buy)')
 
            #add_buy_product(args.product_name,args.price)#uitgehaald:,args.expiration_date

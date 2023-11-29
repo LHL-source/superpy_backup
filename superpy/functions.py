@@ -108,23 +108,20 @@ def advance_time(advance_time):#w?yes
          #return None
 
 
-#advance_time(2)#w?y
 #define file_path
 file_path=os.path.join('data','bought.csv')
-def add_buy_product(product_name,choosen_date_byUser_1,buy_price,expiration_date,):
-  print('r 41 product_name',product_name)
-  print('r 42choosen_date_byUser_1',choosen_date_byUser_1)# was buy_date.strftime('%Y-%m-%d')
-  print('r 41 buy_price ',buy_price)
-  print('r 41 expiration_date ',expiration_date)
+internal_date_file_path=os.path.join('data', 'internal_date.csv')
+def add_buy_product(product_name,buy_price,expiration_date,):#w?yes
   
-  #if buy_date is None:
-       # buy_date = datetime.today()
-  
+  with open(internal_date_file_path,'r',newline='')as file:
+              reader=csv.DictReader(file)
+              existing_content=list(reader)#w?y
+              buy_date_value= existing_content[0]['internal_date']
+              
   with open (file_path,'r') as file:
     reader=csv.DictReader(file)
     rows=list(reader)
-    
-
+ 
     maximum=0
     for eachRow in rows:#works? y
         #de waarde/value van id is een string conver naar een integer 
@@ -133,19 +130,10 @@ def add_buy_product(product_name,choosen_date_byUser_1,buy_price,expiration_date
             maximum =id_int
     new_row_id=maximum + 1
     
-    current_day=date.today()# niet nodig in test fase wel in productie fase
-    print('r 60 current_day:',current_day)
-    print('r 61 type(current_day):',type(current_day))
-    formated_currentday_object=current_day.strftime('%Y-%m-%d')
-    print('r61 formated_currentday_object:',formated_currentday_object)
-    print('r62 type(formated_currentday_object):',type(formated_currentday_object))
-    #test_day = datetime.strptime('2020-01-01', '%Y-%m-%d')
-   
-    
     new_row ={
     'id':new_row_id,
     'product_name':product_name,
-    'buy_date':date_type(choosen_date_byUser_1.strftime('%Y-%m-%d')),#date_type(formated_currentday_object),oude gegeven:date_type(buy_date.strftime('%Y-%m-%d'))
+    'buy_date':buy_date_value,
     'buy_price':buy_price,
     'expiration_date':expiration_date,
     
