@@ -209,14 +209,22 @@ def add_sold_product(product_name,sell_price):
                except ValueError as e:
                    print(f"Error converting date string: {e}")
                    print(f"Problematic date string: {row['expiration_date']}") 
-                   
-               #get the expiration_date in bought.csv which is earlier than the internal_date    
-               if expiration_date_convert_date <=internal_date_value_convert_toDate:
-                     print('L232 min_exp_date_row',min_exp_date_row)
-                     print('L233 type(min_exp_date_row)',type(min_exp_date_row))#type dict
-                     if min_exp_date_row is None or expiration_date_convert_date >string_to_datetime(min_exp_date_row):
-                         min_exp_date_row=row
-                         print('min_exp_date_row',min_exp_date_row)
+
+               #get the expiration_date in bought.csv which is earlier than the internal_date  
+               #  min_exp_date_row=None  
+               if expiration_date_convert_date >=internal_date_value_convert_toDate:
+                     #print('L 215 min_exp_date_row',min_exp_date_row)
+                     #print('L 216 type(min_exp_date_row)',type(min_exp_date_row))#type none
+                     #if min_exp_date_row is None or expiration_date_convert_date >string_to_datetime(min_exp_date_row):
+                         #min_exp_date_row=row
+                         #print('min_exp_date_row',min_exp_date_row)
+                     min_exp_date_row=row
+                     min_exp_date_row['id']
+                     #print('L221 min_exp_date_row',min_exp_date_row)
+                     #print('L222 type(min_exp_date_row)',type(min_exp_date_row))#w? y type:dict
+                     #print("L 224 min_exp_date_row['id']",min_exp_date_row['id'])
+                     #print("L 225 type(min_exp_date_row['id'])",type(min_exp_date_row['id']))#w?yes type:string
+                    
                
                    #buy_id_min_expDate=None
                    #print('buy_id_min_expDate',buy_id_min_expDate)
@@ -239,19 +247,18 @@ def add_sold_product(product_name,sell_price):
 
                    #print('After loop, buy_id_min_expDate:', buy_id_min_expDate) 
                        # step 3.6 make a new row and append to sold.csv
-           #new_row={
-                          #'id': new_sold_row_id,
-                          #'bought_id': buy_id_min_expDate,
-                          #'sell_date': sell_date_value,
-                          #'sell_price':sell_price
-                    #}        
-           #sold_rows.append(new_row)#w?y
-           #print('r 176 rows ', sold_rows)#w?y good job
+           new_row={
+                          'id': new_sold_row_id,
+                          'bought_id': min_exp_date_row['id'],
+                          'sell_date': internal_date_value,
+                          'sell_price':sell_price
+                    }        
+           sold_rows.append(new_row)#w?y
+           print('L257 rows ', sold_rows)#w?y good job
            #
-      #with open (sold_file_path,'w', newline='') as file:#w?yes wel done
-                        #writer=csv.DictWriter(file,fieldnames=sold_reader.fieldnames)
-                        #writer.writeheader()
-                        #writer.writerows(sold_rows)
-
+      with open (sold_file_path,'w', newline='') as file:#w?yes wel done
+                        writer=csv.DictWriter(file,fieldnames=sold_reader.fieldnames)
+                        writer.writeheader()
+                        writer.writerows(sold_rows)
 
       return
