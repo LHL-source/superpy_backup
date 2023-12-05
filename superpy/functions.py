@@ -213,40 +213,9 @@ def add_sold_product(product_name,sell_price):
                #get the expiration_date in bought.csv which is earlier than the internal_date  
                #  min_exp_date_row=None  
                if expiration_date_convert_date >=internal_date_value_convert_toDate:
-                     #print('L 215 min_exp_date_row',min_exp_date_row)
-                     #print('L 216 type(min_exp_date_row)',type(min_exp_date_row))#type none
-                     #if min_exp_date_row is None or expiration_date_convert_date >string_to_datetime(min_exp_date_row):
-                         #min_exp_date_row=row
-                         #print('min_exp_date_row',min_exp_date_row)
                      min_exp_date_row=row
-                     min_exp_date_row['id']
-                     #print('L221 min_exp_date_row',min_exp_date_row)
-                     #print('L222 type(min_exp_date_row)',type(min_exp_date_row))#w? y type:dict
-                     #print("L 224 min_exp_date_row['id']",min_exp_date_row['id'])
-                     #print("L 225 type(min_exp_date_row['id'])",type(min_exp_date_row['id']))#w?yes type:string
-                    
-               
-                   #buy_id_min_expDate=None
-                   #print('buy_id_min_expDate',buy_id_min_expDate)
-                   #print('Before loop, buy_id_min_expDate:', buy_id_min_expDate)
-                   #for eachItem_appel_list_1 in appel_list:
-                       #print("r143 eachItem_appel_list_1['expiration_date']",type(eachItem_appel_list_1['expiration_date']) ) #let op type is string so convert into type datetime                  
-                       #eachItem_appel_list_1_convert=string_to_datetime(eachItem_appel_list_1['expiration_date'])#was datetime.strptime(eachItem_appel_list_1['expiration_date']
-                       #print('eachItem_appel_list_1_convert',eachItem_appel_list_1_convert)
-                       #print('type(eachItem_appel_list_1_convert)',type(eachItem_appel_list_1_convert))
-                       #if buy_id_min_expDate is None or eachItem_appel_list_1_convert < expiration_date_min:
-                            #expiration_date_find=eachItem_appel_list_1_convert #was  expiration_date_min=eachItem_appel_list_1_convert
-                            #print('expiration_date_find',expiration_date_find)
-                            #print('type(expiration_date_find',type(expiration_date_find))
-                            #step 3.5 find the buy_id and put in variabel:buy_id_min_expDate
-                            #update buy_id_min_expDate in all iterations
-                            #buy_id_min_expDate= eachItem_appel_list_1['id']                     
-                            #print('expiration_date_min' ,expiration_date_find)#wy
-                            #print('type(expiration_date_min)' ,type(expiration_date_find))
-                            #print('buy_id_min_expDate:', buy_id_min_expDate)#w/y
-
-                   #print('After loop, buy_id_min_expDate:', buy_id_min_expDate) 
-                       # step 3.6 make a new row and append to sold.csv
+                     min_exp_date_row['id']              
+                   
            new_row={
                           'id': new_sold_row_id,
                           'bought_id': min_exp_date_row['id'],
