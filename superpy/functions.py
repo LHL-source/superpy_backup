@@ -30,7 +30,9 @@ def datetime_to_string(date_object,format='%Y-%m-%d'):#w?y
      """
      return date_object.strftime(format)
 # make function:internal_date()
-#internal_date_file_path=os.path.join('data', 'internal_date.csv')
+
+
+
 def get_internal_date ():#w?y
     internal_date_file_path=os.path.join('data', 'internal_date.csv')
     #check if the file exists
@@ -50,14 +52,6 @@ def get_internal_date ():#w?y
               return datetime_to_string(date.today())  
 
 func_py_get_internal_date=get_internal_date()
-#print('func.py_get_internal_date',func_py_get_internal_date)
-#print(type(func_py_get_internal_date))
-#print("func_py_get_internal_date['internal_date']",func_py_get_internal_date['internal_date'])
-#print('',type(func_py_get_internal_date['internal_date']))
-      
-    #internal_date=date.today()
-    #return #internal_date
-
 
 #function date_type convert:a string into datetime object into string (again)
 def date_type(date_string,):#w?y
@@ -82,19 +76,19 @@ def advance_time(advance_time):#w?yes
          with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
               existing_content=list(reader)
-              print('existing_content',existing_content)
+              #print('existing_content',existing_content)
 
     #update the content
     if existing_content:
-              print('existing_content is trufy')
+              #print('existing_content is trufy')
               #get the existing internalt_date
               existing_internal_date=string_to_datetime(existing_content[0]['internal_date'])
               #calculate the future date based on the existing date
               future_date=existing_internal_date+timedelta(advance_time)
               #update the internal_date value
               existing_content[0]['internal_date']=datetime_to_string(future_date)
-              print('datetime_to_string(future_date)',datetime_to_string(future_date))
-              print('existing_content[0][''internal_date'']',existing_content[0]['internal_date'])
+              #print('datetime_to_string(future_date)',datetime_to_string(future_date))
+              #print('existing_content[0][''internal_date'']',existing_content[0]['internal_date'])
              #existing_content[0]['internal_date']=datetime_to_string(future_date)
     
     #write the updated content back to the file
@@ -140,7 +134,7 @@ def add_buy_product(product_name,buy_price,expiration_date,):#w?yes
     }
    
     rows.append(new_row)#w?y
-    print('r 69 rows ', rows)#w?y good job
+    #print('r 69 rows ', rows)#w?y good job
 
     # add to the file: bought.csv:test_file_with_Id.csv
 
@@ -214,7 +208,9 @@ def add_sold_product(product_name,sell_price):
                #  min_exp_date_row=None  
                if expiration_date_convert_date >=internal_date_value_convert_toDate:
                      min_exp_date_row=row
-                     min_exp_date_row['id']              
+                     min_exp_date_row['id']
+                     print(" min_exp_date_row['id']", min_exp_date_row['id'])        
+                     print("type( min_exp_date_row['id'])",type( min_exp_date_row['id']))     
                    
            new_row={
                           'id': new_sold_row_id,
@@ -230,4 +226,30 @@ def add_sold_product(product_name,sell_price):
                         writer.writeheader()
                         writer.writerows(sold_rows)
 
+      #after write down in sold.csv, in bought.csv delete the same id because it is sold(gone) 
+      # this to prevent to sell the same product twice which is not possible
+      with open (bought_file_path, 'r') as bought_file:#w?y
+           bought_reader=csv.DictReader(bought_file)
+           bought_rows_list=list(bought_reader)#list
+           print(' L 234 type(bought_rows_list)',type(bought_rows_list))
+           
+           #define an empty list to store the rows we want to keep
+           new_bought_rows=[]
+           #iterate through each row in bought_rows_list 
+           for row in bought_rows_list:
+              # Check if the 'id' of the current row is not equal to the 'id' we want to remove
+               if row['id'] != min_exp_date_row['id']:
+               # If the condition is true, add the row to the new_bought_rows list
+                  new_bought_rows.append(row)
+
+      with open(bought_file_path, 'w', newline='') as bought_file:
+                writer = csv.DictWriter(bought_file, fieldnames=bought_reader.fieldnames)
+                writer.writeheader()
+                writer.writerows(new_bought_rows)
+
       return
+
+#is_sold_than_delete_inBought(min_exp_date_row['id'],product_name)
+#def is_sold_than_delete_inBought(a,product_name):#was :min_exp_date_row['id']
+     #pass
+     #return
