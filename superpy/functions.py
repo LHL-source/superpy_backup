@@ -193,6 +193,7 @@ def add_sold_product(product_name,sell_price):
                    
            #Find the row with minimum expiration date not exceeding internal_date
            min_exp_date_row=None
+           add_product_name=None
            for row in relevant_rows:
                
                try:
@@ -209,14 +210,33 @@ def add_sold_product(product_name,sell_price):
                if expiration_date_convert_date >=internal_date_value_convert_toDate:
                      min_exp_date_row=row
                      min_exp_date_row['id']
-                     print(" min_exp_date_row['id']", min_exp_date_row['id'])        
-                     print("type( min_exp_date_row['id'])",type( min_exp_date_row['id']))     
-                   
+                     
+                     #add bought.csv coloms:product_name,buy_date,buy_price,expiration_date
+                     # to sold.csv 
+                     add_product_name=row['product_name']#w?y type:string
+                     #print('L 219 add_product_name:',add_product_name)
+                     #print('L220 type(add_product_name):',type(add_product_name))
+
+                     add_buy_date=row['buy_date']#w?y type:string
+                     #print('L223 add_buy_date: ',add_buy_date)#w?y
+                     #print('L224type(add_buy_date):',type(add_buy_date))#w?y
+
+                     add_buy_price=row['buy_price']#w?y type:string
+                     #print('L227 buy_price:',add_buy_price)#w?y
+                     #print('L228 type(add_buy_price) ',type(add_buy_price))#w?y
+
+                     add_expiration_date=row['expiration_date']#w?y type:string
+                     #print('L231 add_expiration_date:',add_expiration_date)
+                     #print('type(add_expiration_date)',type(add_expiration_date))
            new_row={
                           'id': new_sold_row_id,
                           'bought_id': min_exp_date_row['id'],
                           'sell_date': internal_date_value,
-                          'sell_price':sell_price
+                          'sell_price':sell_price,
+                          'product_name':add_product_name,
+                          'buy_date':add_buy_date,
+                          'buy_price':add_buy_price,
+                          'expiration_date':add_expiration_date
                     }        
            sold_rows.append(new_row)#w?y
            print('L257 rows ', sold_rows)#w?y good job
@@ -249,7 +269,3 @@ def add_sold_product(product_name,sell_price):
 
       return
 
-#is_sold_than_delete_inBought(min_exp_date_row['id'],product_name)
-#def is_sold_than_delete_inBought(a,product_name):#was :min_exp_date_row['id']
-     #pass
-     #return
