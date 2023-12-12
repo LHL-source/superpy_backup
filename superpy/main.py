@@ -79,7 +79,7 @@ def main():
          
     if args.command =='buy':#w?yes
         pass
-        print('go to def add_buy_product()')
+        #print('go to def add_buy_product()')
         add_buy_product(args.product_name,args.price,args.expiration_date)#w?y
         #print('oke (of buy)')
 
@@ -91,11 +91,14 @@ def main():
            print('into report')
 
            if args.report_command=='inventory':#w?
-              print('into report_inventory')
+              print('into main.py/report_inventory')#w?y
+              report_now(args.now)
               if args.yesterday:#w?y
                     print('go to def report_yesterday()')
               elif args.now:#works?y
-                    print('go to def report_now()')
+                    #print('main.py:go to def report_now()')
+                    report_now(args.now)
+
                 
 
            elif args.report_command=='revenue':#w?y

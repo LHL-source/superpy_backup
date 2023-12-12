@@ -20,4 +20,18 @@ table.add_row("Dec 16, 2016", "Rogue One: A Star Wars Story", "$1,332,439,889")
 console = Console()
 # Set soft_wrap property of the Console object
 console.soft_wrap = True
-print(table, )#soft_wrap=True
+#print(table, )#soft_wrap=True
+
+#count now may time apple appears:#w?y 11 dec 2023
+fruits=['apple','banana','orange','apple','banana','apple']
+fruit_counts={}
+
+for fruit in fruits:
+    #print('fruit',fruit)#w?y
+    if fruit in fruit_counts:
+        fruit_counts[fruit]+=1
+    else:
+        fruit_counts[fruit]=1
+
+for fruit in fruit_counts:
+    print('fruit_counts',fruit_counts)

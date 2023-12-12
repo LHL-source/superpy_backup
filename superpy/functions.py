@@ -6,6 +6,11 @@ import csv
 import os
 import argparse
 
+from rich.table import Table
+from rich import print
+from rich.console import Console
+
+
 def string_to_datetime(date_string, format='%Y-%m-%d'):#w?y
      
 
@@ -213,21 +218,11 @@ def add_sold_product(product_name,sell_price):
                      
                      #add bought.csv coloms:product_name,buy_date,buy_price,expiration_date
                      # to sold.csv 
-                     add_product_name=row['product_name']#w?y type:string
-                     #print('L 219 add_product_name:',add_product_name)
-                     #print('L220 type(add_product_name):',type(add_product_name))
-
+                     add_product_name=row['product_name']#w?y type:string                  
                      add_buy_date=row['buy_date']#w?y type:string
-                     #print('L223 add_buy_date: ',add_buy_date)#w?y
-                     #print('L224type(add_buy_date):',type(add_buy_date))#w?y
-
                      add_buy_price=row['buy_price']#w?y type:string
-                     #print('L227 buy_price:',add_buy_price)#w?y
-                     #print('L228 type(add_buy_price) ',type(add_buy_price))#w?y
-
                      add_expiration_date=row['expiration_date']#w?y type:string
-                     #print('L231 add_expiration_date:',add_expiration_date)
-                     #print('type(add_expiration_date)',type(add_expiration_date))
+                     
            new_row={
                           'id': new_sold_row_id,
                           'bought_id': min_exp_date_row['id'],
@@ -269,3 +264,120 @@ def add_sold_product(product_name,sell_price):
 
       return
 
+# make a function to make report
+bought_file_path=os.path.join('data', 'bought.csv')
+internal_date_file_path=os.path.join('data', 'internal_date.csv')
+def  report_now(now):#w? y type:string
+     #print("into function.py, function report_now(now)")#w?y
+     #print('into functions.py_report_now():')
+     #print( 'L 270 now:',now)#w?y
+     #print('L271 type(now):',type(now))#w?y
+
+     
+
+     #add rows in the table:but first open sold.csv and read the row(s)
+     with open(internal_date_file_path,'r',newline='')as file:
+              reader=csv.DictReader(file)
+              existing_content=list(reader)#w?y
+              internal_date= existing_content[0]['internal_date']#w?y type:string
+              #print('L290 internal_date',internal_date)#w?y
+              #print('type(internal_date)',type(internal_date))
+
+     with open (bought_file_path, 'r') as bought_file:#w?y
+           bought_reader=csv.DictReader(bought_file)
+           bought_rows=list(bought_reader)#w?y type:dict
+     
+     
+           product_counts={}
+           #loop through new_bought_rows 
+           report_details=[]#list to store details for each row
+           for row in bought_rows:#w?y type:type dic 
+                #print('L 301 row', row)#w?y
+               #check iffor product_name, count in product_counts.items():
+  
+               if row['product_name']=='appel' and row['expiration_date'] >= internal_date:
+               #extract product_name
+                     product_name=row['product_name']
+
+                     #count occurrences of each product
+                     if product_name in product_counts:
+                          product_counts[product_name]+=1
+                     else:
+                          product_counts[product_name]=1
+                      #store relevant details in report_details
+                     report_details.append({
+                           'product_name':product_name,
+                           'buy_price':row['buy_price'],
+                           'expiration_date':row['expiration_date']
+
+                      })
+            #displat the result
+                     for report_detail in report_details:  
+                        print(f"{report_detail['product_name']} {product_counts[report_detail['product_name']]} {report_detail['buy_price']} {report_detail['expiration_date']}")
+               
+            # Display the result
+           #for product_name, count in product_counts.items():
+               #print('L315 ')
+               #print(f"{product_name} {count} {row['buy_price']} {row['expiration_date']}")
+          
+           
+
+
+         #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+           
+              #define a list with name  new_appel_rows which only containt product_name=appel
+              #new_appel_rows=[]#list
+           
+              #print('L 300 appel_listDic:',appel_listDic)
+              #print('L 301 type(appel_listDic):',type(appel_listDic))
+              
+              #row['product_name']#w?y type:string
+              #print("L303 row['product_name']", row['product_name'])
+              #print("type(row['product_name'])", type(row['product_name']))
+              #if row['product_name']=='appel':
+                   
+                   #new_appel_rows.append(row)
+                   #print('L308 in for/loop new_appel_rows',new_appel_rows)
+                   #print('L309 in for/loop type(new_appel_rows)',type(new_appel_rows))
+                   #appel_counter=appel_counter+1#w? not yet type:int
+                   #print('L311 in for/loopappel_counter:',appel_counter)
+                   #print('L312 in for/loop type(appel_counter):',type(appel_counter))
+                   #print('xxx xxx xxx xxx xxx ')
+              #print for outsite for/loop    
+              #print('L305 buiten for/loop new_appel_rows',new_appel_rows)
+              #print('L306 buiten for/loop type(new_appel_rows)',type(new_appel_rows))
+              #print('L302 buiten for/loop appel_counter:',appel_counter)
+              #print('L303 buiten for/loop type(appel_counter):',type(appel_counter))
+              
+            
+            #convert:appel_counter,banana_counter,orange_counter into string to display in the tabel
+
+            #make a table
+            #table=Table(title='Inventory : now (according to the internal_date)')
+
+            #add colomns in the table:alle colomns works? yes good job
+            #table.add_column("Product Name",justify='center',style="cyan",no_wrap=True)
+            #table.add_column("Count",justify='center',style="cyan",no_wrap=True)
+            #table.add_column("Buy Price",justify='center',style="cyan",no_wrap=True)
+            #table.add_column("Expiration Date",justify='center',style="cyan",no_wrap=True)
+
+            #add row in table
+            #table.add_row(row['product_name'],appel_counter,row['buy_price'],row['expiration_date'])    
+            #table.add_row(row['buy_price'])   
+     
+
+              #create a console object
+              #console=Console()
+              #ser soft-wrap property of the console object
+              #console.soft_wrap=True
+              #print(table, )#soft_wrap=True
+    
+     return
+
+#if row['product_name']=='banana':
+                    #banana_counter==banana_counter+1
+              #if row['product_name']=='orange':
+                     #orange_counter=='orange'     
+
+#banana_counter=int(0)
+#orange_counter=int(0)
