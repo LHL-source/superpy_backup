@@ -49,7 +49,7 @@ def main():
     inventory_group=inventory_parser.add_argument_group("Inventory options")
     #voeg de argumenten toe aan inventory_group
     inventory_group.add_argument("--yesterday",type=str, help="Report inventory for yesterday")
-    inventory_group.add_argument("--now", type=str, help="Report inventory for today")
+    inventory_group.add_argument("--now", nargs='?', const=None, help="Report inventory for today")
 
     #hieronder definieer argument groups voor (report) revenue w? yes 
     revenue_group=revenue_parser.add_argument_group("Revenue options")
