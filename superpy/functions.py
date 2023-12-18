@@ -287,15 +287,16 @@ def  report_now(now):#w? y type:string
            bought_reader=csv.DictReader(bought_file)
            bought_rows=list(bought_reader)#w?y type:list of dictionary
            
-     #print('L 290 bought_rows',bought_rows)#w? y
-     #print('L 291 type(bought_rows)',type(bought_rows))#w?y type class:list
+     print('L 290 bought_rows',bought_rows)#w? y
+     print('L 291 type(bought_rows)',type(bought_rows))#w?y type class:list
+     
+     #initialize an empty dictionary called "fruit_counts" to store the dybanuc counts
+     fruit_counts={}
+     #start a loop to iterate through each dictionary in the 'fruits' list
+     for fruit in bought_rows:
 
-     for row in bought_rows:
-          #print(f"Processing row:{row}")#w?y
-          #define a new list (of dictionary) ALL products with expiration_date >= internal_date
-          all_product_expDate_QualOrLargerThan_internalDate=[]
           #convert expiration_date to a datetime also for internaldate
-          exp_date_in_datetime=string_to_datetime(row['expiration_date'])#type datetime object
+          exp_date_in_datetime=string_to_datetime(fruit['expiration_date'])#type datetime object
           #print('L 299 exp_date_in_datetime',exp_date_in_datetime)#w?y
           #print('L 300 type(exp_date_in_datetime)',type(exp_date_in_datetime))#w?y
           
@@ -303,29 +304,33 @@ def  report_now(now):#w? y type:string
           #print('internalDate_in_datetime',internalDate_in_datetime)#w?y
           #print('L304 type(internalDate_in_datetime)',type(internalDate_in_datetime))#w?y type datetime object
           
-          #select only the items which expiration_date >= internal_date
-          if  exp_date_in_datetime>= internalDate_in_datetime:#w?y
-               all_product_expDate_QualOrLargerThan_internalDate.append(row)#w?y
-     
-          for row in all_product_expDate_QualOrLargerThan_internalDate:#w?y
-                  
-                  #print('L300 row',row)#w?y
-                  #print('row',type(row))#w?y type:class 'dict'
+          #for each bought_rows dictionary, we extract the relevant criteria(product_name and expiration_date) and 
+          #create a tuple called 'criteria'. This tuple will be used as a key in our 'fruit_counts'
+          criteria=(fruit['product_name'],exp_date_in_datetime)
           
-          #For each product (e.g., apple, banana, orange):
-          #Create a sublist containing only rows for that product here is product_name='appel'
-                   appel_expDate_QualOrLargerThan_internalDate=[]#type class list
-                   print('appel_expDate_QualOrLargerThan_internalDate',type(appel_expDate_QualOrLargerThan_internalDate))
-          if  all_product_expDate_QualOrLargerThan_internalDate['product_name']=='appel':
-                  appel_expDate_QualOrLargerThan_internalDate.append(row)
+          # there are two if-statments:1)exp_date_in_datetime==internalDate_in_datetime AND 2)exp_date_in_datetime >=internalDate_in_datetime
+          #first 1)exp_date_in_datetime==internalDate_in_datetime is true than update fruit_counts
+          if exp_date_in_datetime==internalDate_in_datetime:
+                if criteria not in fruit_counts:
+                      fruit_counts[criteria]=1
+                else:
+                      fruit_counts[criteria]+=1
           
-          #controle the  appel_expDate_QualOrLargerThan_internalDate 
-          #for row in appel_expDate_QualOrLargerThan_internalDate :
-               #print('L 322 row',row)
-               #print('L 323type(row)',type(row))
-          
+          elif exp_date_in_datetime >= internalDate_in_datetime:
+               if criteria not in fruit_counts:
+                      fruit_counts[criteria]=1
+               else:
+                      fruit_counts[criteria]+=1
+
+          #after processing all fruits, we iterate through the items(key-values pairs) in the
+          #'fruit_counts' dictionary
+          #we priny a message for each criteria tuple, indicating the number of occurences
+     for criteria, count in fruit_counts.items():
+          print(f"For{criteria}:{count} occurences")                                 
+
+    
      return    
-#hoi 17-12-2023
+# 18-12-2023
 
 
 
