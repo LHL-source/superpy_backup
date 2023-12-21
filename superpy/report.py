@@ -87,28 +87,39 @@ for criteria, count in fruit_counts.items():
 #and you can adapt it for your scenario with products and attributes
         
 #now the dynamic 'fruit_counts' how to use in Rich?
-from rich.console import Console
-from rich.table import Table
+#from rich.console import Console
+#from rich.table import Table
 #assume fruit_counts is the dynamically generated data
-fruit_counts={
-    ('apple', 'red'): 1,
-    ('banana', 'yellow'): 2,
-    ('orange', 'orange'): 1,
-    ('carrot', 'orange'): 2,
-    ('grape', 'purple'): 1,
-    ('apple', 'green'): 1,
-}
+#fruit_counts={
+    #('apple', 'red'): 1,
+    #('banana', 'yellow'): 2,
+    #('orange', 'orange'): 1,
+    #('carrot', 'orange'): 2,
+    #('grape', 'purple'): 1,
+    #('apple', 'green'): 1,
+#}
 
-console=Console()
+#console=Console()
 #create a Rich Table
-table=Table(title="Fruit Counts")
-table.add_column('Fruit Name', justify="center")
-table.add_column("Color",justify="center")
-table.add_column("Occurences",justify="center")
+#table=Table(title="Fruit Counts")
+#table.add_column('Fruit Name', justify="center")
+#table.add_column("Color",justify="center")
+#table.add_column("Occurences",justify="center")
 
 #polulate the table with dynamic data
-for (fruit_name, color), occurences in fruit_counts.items():#w?y
-    table.add_row(fruit_name, color, str(occurences))#w?y
+#for (fruit_name, color), occurences in fruit_counts.items():#w?y
+    #table.add_row(fruit_name, color, str(occurences))#w?y
 
 #print the table
-console.print(table)#w?y
+#console.print(table)#w?y
+    
+#iterate through a list of dictionary:
+fruit_counts={'apple':3,'banana':2,'orange':5}
+for soepkip, muizendrol in fruit_counts.items():
+    print ('L119 ',soepkip)
+
+#of course it is the same logic as:
+
+fruit=['appel','banana','mango']
+for eachFruitOfIteration in fruit:
+    print('print for variabel eachFruitOfIteration  the value of each iteration:',eachFruitOfIteration)

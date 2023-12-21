@@ -269,13 +269,7 @@ def add_sold_product(product_name,sell_price):
 bought_file_path=os.path.join('data', 'bought.csv')
 internal_date_file_path=os.path.join('data', 'internal_date.csv')
 def  report_now(now):#w? y type:string
-     #print("into function.py, function report_now(now)")#w?y
-     #print('into functions.py_report_now():')
-     #print( 'L 270 now:',now)#w?y
-     #print('L271 type(now):',type(now))#w?y
-
      
-
      #add rows in the table:but first open sold.csv and read the row(s)
      with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
@@ -287,7 +281,20 @@ def  report_now(now):#w? y type:string
      with open (bought_file_path, 'r') as bought_file:#w?y
            bought_reader=csv.DictReader(bought_file)
            bought_rows=list(bought_reader)#w?y type:list of dictionary
-           
+     
+     if not bought_rows:
+          #display the table with only the colums
+          table = Table(title="Expected Result")
+          table.add_column("Product Name", justify="center", style="cyan")
+          table.add_column("Count", justify="center", style="magenta")
+          table.add_column("Buy Price", justify="center", style="green")
+          table.add_column("Expiration Date", justify="center", style="yellow")
+
+          #print the table
+          console = Console()
+          console.print(table)
+          return
+
      #print('L 290 bought_rows',bought_rows)#w? y
      #print('L 291 type(bought_rows)',type(bought_rows))#w?y type class:list
 
@@ -360,9 +367,15 @@ def  report_now(now):#w? y type:string
           #iterate through fruit_counts dic and add rows to the table
      for criteria, count in fruit_counts.items():
           product_name, expiration_date =criteria
-          buy_price = next(fruit['buy_price'] for fruit in all_fruits if fruit['product_name'] == product_name and fruit['expiration_date'] == expiration_date)
-                
-          table.add_row(product_name,str(count), str(buy_price),str(expiration_date))
+          #buy_price = next(fruit['buy_price'] for fruit in all_fruits if fruit['product_name'] == product_name and fruit['expiration_date'] == expiration_date)
+          #the traditional way:
+          buy_price=None
+          for fruit in all_fruits:
+               if fruit in all_fruits:
+                    if fruit['product_name']==product_name and fruit['expiration_date']==expiration_date:
+                          buy_price=fruit['buy_price']
+                          break #exit the loop once a match is found
+          table.add_row(product_name,str(count), str(buy_price),datetime_to_string(expiration_date))
      #print the talbe
      console=Console()
      console.print(table)
