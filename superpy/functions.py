@@ -6,6 +6,7 @@ import csv
 import os
 import argparse
 
+from collections import defaultdict
 from rich.table import Table
 from rich import print
 from rich.console import Console
@@ -287,11 +288,13 @@ def  report_now(now):#w? y type:string
            bought_reader=csv.DictReader(bought_file)
            bought_rows=list(bought_reader)#w?y type:list of dictionary
            
-     print('L 290 bought_rows',bought_rows)#w? y
-     print('L 291 type(bought_rows)',type(bought_rows))#w?y type class:list
-     
+     #print('L 290 bought_rows',bought_rows)#w? y
+     #print('L 291 type(bought_rows)',type(bought_rows))#w?y type class:list
+
+     #initialize an empty list called "all_fruits" and select all fruit which expiration_date >=internal_date
+     all_fruits=[]
      #initialize an empty dictionary called "fruit_counts" to store the dybanuc counts
-     fruit_counts={}
+     fruit_counts= defaultdict(int)
      #start a loop to iterate through each dictionary in the 'fruits' list
      for fruit in bought_rows:
 
@@ -304,19 +307,38 @@ def  report_now(now):#w? y type:string
           #print('internalDate_in_datetime',internalDate_in_datetime)#w?y
           #print('L304 type(internalDate_in_datetime)',type(internalDate_in_datetime))#w?y type datetime object
           
-          #for each bought_rows dictionary, we extract the relevant criteria(product_name and expiration_date) and 
-          #create a tuple called 'criteria'. This tuple will be used as a key in our 'fruit_counts'
-          criteria=(fruit['product_name'],exp_date_in_datetime)
+          #make a list of Only fruit which expiration_date >== internal_date
+          #use a empty list of all_fruits
           
-          # there are two if-statments:1)exp_date_in_datetime==internalDate_in_datetime AND 2)exp_date_in_datetime >=internalDate_in_datetime
+          
+          if exp_date_in_datetime == internalDate_in_datetime or exp_date_in_datetime > internalDate_in_datetime:#w? y (anwers id: 4,5,6,7,8,10)
+                fruit_info={
+                     'product_name':fruit['product_name'],
+                     'expiration_date': exp_date_in_datetime,
+                     'buy_price': float(fruit['buy_price'])  # Assuming buy_price is a float
+                }
+                all_fruits.append(fruit_info)
+     
+     #iterate through each fruit in all_fruits
+     for fruit in all_fruits:#w?y
+          #extract the relevant criteria
+          #criteria=(fruit['product_name'],fruit['expiration_date'])
+          #print('L324 fruit',fruit)#w? y
+          #print('type(fruit)',type(fruit))#w?y
+                  
+          #for each all_fruits list of dictionary, we extract the relevant criteria(product_name and expiration_date) and 
+          #create a tuple called 'criteria'. This tuple will be used as a key in our 'fruit_counts'
+          criteria=(fruit['product_name'],fruit['expiration_date'])
+          
+          # there are two if-statments:1)exp_date_in_datetime==internalDate_in_datetime AND 2)exp_date_in_datetime >internalDate_in_datetime
           #first 1)exp_date_in_datetime==internalDate_in_datetime is true than update fruit_counts
-          if exp_date_in_datetime==internalDate_in_datetime:
+          if exp_date_in_datetime==internalDate_in_datetime:#w?y
                 if criteria not in fruit_counts:
                       fruit_counts[criteria]=1
                 else:
                       fruit_counts[criteria]+=1
           
-          elif exp_date_in_datetime >= internalDate_in_datetime:
+          elif exp_date_in_datetime > internalDate_in_datetime:
                if criteria not in fruit_counts:
                       fruit_counts[criteria]=1
                else:
@@ -325,8 +347,25 @@ def  report_now(now):#w? y type:string
           #after processing all fruits, we iterate through the items(key-values pairs) in the
           #'fruit_counts' dictionary
           #we priny a message for each criteria tuple, indicating the number of occurences
+          #for criteria, count in fruit_counts.items():#w? y
+           #print(f"For{criteria}:{count} occurences")   #w?y      
+                                             
+          #create a Rich Table
+          table=Table(title="Expected Result")   
+          table.add_column("Product Name", justify="center", style="cyan") 
+          table.add_column("Count", justify="center", style="magenta")  
+          table.add_column("Buy Price", justify="center", style="green")
+          table.add_column("Expiration Date", justify="center", style="yellow")
+
+          #iterate through fruit_counts and add rows to the table
      for criteria, count in fruit_counts.items():
-          print(f"For{criteria}:{count} occurences")                                 
+          product_name, expiration_date =criteria
+          buy_price = next(fruit['buy_price'] for fruit in all_fruits if fruit['product_name'] == product_name and fruit['expiration_date'] == expiration_date)
+                
+          table.add_row(product_name,str(count), str(buy_price),str(expiration_date))
+     #print the talbe
+     console=Console()
+     console.print(table)
 
     
      return    
