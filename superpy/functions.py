@@ -357,7 +357,7 @@ def  report_now(now):#w? y type:string
           table.add_column("Buy Price", justify="center", style="green")
           table.add_column("Expiration Date", justify="center", style="yellow")
 
-          #iterate through fruit_counts and add rows to the table
+          #iterate through fruit_counts dic and add rows to the table
      for criteria, count in fruit_counts.items():
           product_name, expiration_date =criteria
           buy_price = next(fruit['buy_price'] for fruit in all_fruits if fruit['product_name'] == product_name and fruit['expiration_date'] == expiration_date)
@@ -369,7 +369,7 @@ def  report_now(now):#w? y type:string
 
     
      return    
-# 18-12-2023
+# 21-12-2023
 
 
 
