@@ -379,7 +379,15 @@ def  report_now(now):#w? y type:string
 
     
      return    
-# 29-12-2023 23.09h
+
+def report_yesterday(yesterday):
+      print('function.py, report_yesterday() ')#w? y
+      advance_time(-1)#w?yes, good job
+      report_now(yesterday)
+      return
+
+
+# 29-12-2023 23.18h
 
 
 

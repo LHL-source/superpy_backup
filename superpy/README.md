@@ -25,3 +25,32 @@ The tabel of the assignment has no row, in my application there is a empty row.
 I think it is better to keep one empty row so the user conclude there is nog row 
 because the first row is empty. Have ask on 29 dec 2023 in the chat and mentor Christiaan Verlaan
 said it is oke.
+
+29-12-2023
+command: python main.py report inventory --yesterday
+test data set:
+internal_date.csv
+internal_date
+2023-12-06
+
+bought.csv
+id,product_name,buy_date,buy_price,expiration_date
+1,appel,2023-11-25,0.4,2023-12-06
+2,appel,2023-11-25,0.4,2023-12-06
+3,appel,2023-11-25,0.4,2023-12-05
+4,appel,2023-11-25,0.4,2023-12-07
+5,banana,2023-11-25,0.5,2023-12-06
+6,banana,2023-11-25,0.5,2023-12-05
+7,banana,2023-11-25,0.5,2023-12-07
+
+expected result in Rich:
+┏━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Product Name ┃ Count ┃ Buy Price ┃ Expiration Date ┃
+┡━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│    appel     │   2   │    0.4    │   2023-12-06    │
+│    appel     │   1   │    0.4    │   2023-12-07    │
+│    banana    │   1   │    0.5    │   2023-12-06    │
+│    banana    │   1   │    0.5    │   2023-12-07    │
+└──────────────┴───────┴───────────┴─────────────────┘
+
+

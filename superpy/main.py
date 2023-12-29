@@ -48,8 +48,9 @@ def main():
     #hieronder DEFINEER argument groups for inventory w?yes 
     inventory_group=inventory_parser.add_argument_group("Inventory options")
     #voeg de argumenten toe aan inventory_group
-    inventory_group.add_argument("--yesterday",type=str, help="Report inventory for yesterday")
-    inventory_group.add_argument("--now", nargs='?', const=None, help="Report inventory for today")
+    #inventory_group.add_argument("--yesterday",type=str, help="Report inventory for yesterday")
+    inventory_group.add_argument("--yesterday", nargs='?',const="yesterday", help="Report inventory for yesterday")
+    inventory_group.add_argument("--now", nargs='?', const="now", help="Report inventory for today")
 
     #hieronder definieer argument groups voor (report) revenue w? yes 
     revenue_group=revenue_parser.add_argument_group("Revenue options")
@@ -88,13 +89,15 @@ def main():
            
            add_sold_product(args.product_name,args.price)
     elif args.command =='report':#works? yes
-           print('into report')
+           print('into main.py report')
 
            if args.report_command=='inventory':#w?
               print('into main.py/report_inventory')#w?y
-              report_now(args.now)
+              #report_now(args.now)
               if args.yesterday:#w?y
                     print('go to def report_yesterday()')
+                    report_yesterday(args.yesterday)
+                    
               elif args.now:#works?y
                     #print('main.py:go to def report_now()')
                     report_now(args.now)
