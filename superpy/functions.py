@@ -274,9 +274,7 @@ def  report_now(now):#w? y type:string
      with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
               existing_content=list(reader)#w?y
-              internal_date= existing_content[0]['internal_date']#w?y type:string
-              #print('L283 internal_date',internal_date)#w?y
-              #print('L284 type(internal_date)',type(internal_date))#w?y type string
+              internal_date= existing_content[0]['internal_date']#w?y type:string         
 
      with open (bought_file_path, 'r') as bought_file:#w?y
            bought_reader=csv.DictReader(bought_file)
@@ -289,42 +287,41 @@ def  report_now(now):#w? y type:string
           table.add_column("Count", justify="center", style="magenta")
           table.add_column("Buy Price", justify="center", style="green")
           table.add_column("Expiration Date", justify="center", style="yellow")
-
+          
           #print the table
-          console = Console()
+          console=Console()
           console.print(table)
-          return
-
-     #print('L 290 bought_rows',bought_rows)#w? y
-     #print('L 291 type(bought_rows)',type(bought_rows))#w?y type class:list
+          return #exit the function if there are no rows
+     
+     # if there are rows in bought.csv, continue with the rest of the logic
 
      #initialize an empty list called "all_fruits" and select all fruit which expiration_date >=internal_date
      all_fruits=[]
-     #initialize an empty dictionary called "fruit_counts" to store the dybanuc counts
+     #initialize an empty dictionary called "fruit_counts" to store the dynamic counts
      fruit_counts= defaultdict(int)
      #start a loop to iterate through each dictionary in the 'fruits' list
      for fruit in bought_rows:
 
-          #convert expiration_date to a datetime also for internaldate
-          exp_date_in_datetime=string_to_datetime(fruit['expiration_date'])#type datetime object
-          #print('L 299 exp_date_in_datetime',exp_date_in_datetime)#w?y
-          #print('L 300 type(exp_date_in_datetime)',type(exp_date_in_datetime))#w?y
+                  #convert expiration_date to a datetime also for internaldate
+                  exp_date_in_datetime=string_to_datetime(fruit['expiration_date'])#type datetime object
+                  #print('L 299 exp_date_in_datetime',exp_date_in_datetime)#w?y
+                  #print('L 300 type(exp_date_in_datetime)',type(exp_date_in_datetime))#w?y
           
-          internalDate_in_datetime=string_to_datetime(internal_date)
-          #print('internalDate_in_datetime',internalDate_in_datetime)#w?y
-          #print('L304 type(internalDate_in_datetime)',type(internalDate_in_datetime))#w?y type datetime object
+                  internalDate_in_datetime=string_to_datetime(internal_date)
+                  #print('internalDate_in_datetime',internalDate_in_datetime)#w?y
+                  #print('L304 type(internalDate_in_datetime)',type(internalDate_in_datetime))#w?y type datetime object
           
-          #make a list of Only fruit which expiration_date >== internal_date
-          #use a empty list of all_fruits
+                  #make a list of Only fruit which expiration_date >== internal_date
+                  #use a empty list of all_fruits
           
           
-          if exp_date_in_datetime == internalDate_in_datetime or exp_date_in_datetime > internalDate_in_datetime:#w? y (anwers id: 4,5,6,7,8,10)
-                fruit_info={
-                     'product_name':fruit['product_name'],
-                     'expiration_date': exp_date_in_datetime,
-                     'buy_price': float(fruit['buy_price'])  # Assuming buy_price is a float
-                }
-                all_fruits.append(fruit_info)
+                  if exp_date_in_datetime == internalDate_in_datetime or exp_date_in_datetime > internalDate_in_datetime:#w? y (anwers id: 4,5,6,7,8,10)
+                         fruit_info={
+                                     'product_name':fruit['product_name'],
+                                     'expiration_date': exp_date_in_datetime,
+                                     'buy_price': float(fruit['buy_price'])  # Assuming buy_price is a float
+                                     }
+                         all_fruits.append(fruit_info)
      
      #iterate through each fruit in all_fruits
      for fruit in all_fruits:#w?y
@@ -382,7 +379,7 @@ def  report_now(now):#w? y type:string
 
     
      return    
-# 21-12-2023 23.09h
+# 29-12-2023 23.09h
 
 
 
