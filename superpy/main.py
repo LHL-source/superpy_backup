@@ -48,16 +48,15 @@ def main():
     #hieronder DEFINEER argument groups for inventory w?yes 
     inventory_group=inventory_parser.add_argument_group("Inventory options")
     #voeg de argumenten toe aan inventory_group
-    #inventory_group.add_argument("--yesterday",type=str, help="Report inventory for yesterday")
     inventory_group.add_argument("--yesterday", nargs='?',const="yesterday", help="Report inventory for yesterday")
     inventory_group.add_argument("--now", nargs='?', const="now", help="Report inventory for today")
 
     #hieronder definieer argument groups voor (report) revenue w? yes 
     revenue_group=revenue_parser.add_argument_group("Revenue options")
     #voeg de argumenten toe aan revenue_group
-    revenue_group.add_argument("--yesterday", type=str, help="Report revenue for yesterday")
-    revenue_group.add_argument("--today",type=str, help="Report revenue for today")
-    revenue_group.add_argument("--date",type=str, help="Report revenue for specific date(e.g.'2019-12')")
+    revenue_group.add_argument("--yesterday", nargs='?',const="yesterday", help="Report revenue for yesterday")
+    revenue_group.add_argument("--today",nargs='?',const="today", help="Report revenue for today")
+    revenue_group.add_argument("--date",nargs='?',const="2023-12", help="Report revenue for specific date(e.g.'2023-12')")
 
     #definieer argument-groups voor (report) profit works?yes
     profit_group=profit_parser.add_argument_group("Profit options")
@@ -106,7 +105,9 @@ def main():
 
            elif args.report_command=='revenue':#w?y
                print('into report_revenue')
-               if args.yesterday:#w?y
+               if args.today:#w?y
+                    print('go to def revenu_today')
+               elif args.yesterday:#w?y
                    print('go to def revenu_yesterday()')
                elif args.date:#w?y
                    print('go to def revenu_date()')   
