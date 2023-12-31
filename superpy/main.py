@@ -104,9 +104,11 @@ def main():
                 
 
            elif args.report_command=='revenue':#w?y
-               print('into report_revenue')
+               print('into report_revenue')#w?y
                if args.today:#w?y
-                    print('go to def revenu_today')
+                    print('go to def revenu_today')#w?y
+                    revenue_today(args.today)
+
                elif args.yesterday:#w?y
                    print('go to def revenu_yesterday()')
                elif args.date:#w?y

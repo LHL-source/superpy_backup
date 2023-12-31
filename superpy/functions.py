@@ -380,14 +380,48 @@ def  report_now(now):#w? y type:string
     
      return    
 
-def report_yesterday(yesterday):
+def report_yesterday(yesterday):#w?y
       print('function.py, report_yesterday() ')#w? y
       advance_time(-1)#w?yes, good job
       report_now(yesterday)
       return
 
+sold_file_path=os.path.join('data', 'sold.csv')
+def revenue_today(today):
+    print('function.py:revenu_today()',today)#w?y
+    #get the internal_date
+    today_date=get_internal_date()#wtype datetime
+   
+    #initial total revenue for today
+    total_revenue_today=0
+    
+    #read the sold.csv
+    with open (sold_file_path,'r') as sold_file:#w?y
+           sold_reader= csv.DictReader(sold_file)#w?y
+           sold_rows=list(sold_reader)#w?y
+    
+    #test the sold.csv data by a loop: get only the sell_date #w?y
+    for row in sold_rows:
+          #print("L405:'sell_price",row['sell_price'])
+          #print("L406:'sell_date",row['sell_date'])#w?y 
+          #print("L407 row['sell_date']",type(row['sell_date']))#w?y type string
 
-# 30-12-2023 13.29 u
+          #convert the sell_date from string to datetime
+          sell_date_convert_datetime=string_to_datetime(row['sell_date'])#w?y type datetime
+          #print("L411 sell_date_convert_datetime",sell_date_convert_datetime)#w?y
+          #print("L412 type(sell_date_convert_datetime)",type(sell_date_convert_datetime))#w?y
+
+          #check if sell_date_convert_datetime ==today_date
+          if sell_date_convert_datetime ==today_date:
+               #print('true')
+               total_revenue_today =total_revenue_today + float(row['sell_price'])
+               #print("L417 total_revenue_today :",total_revenue_today)
+    
+    print("total_revenue_today :",total_revenue_today)
+    return total_revenue_today
+    #print("L421 total_revenue_today :",total_revenue_today)
+
+# 31-12-2023 13.52 u
 
 
 
