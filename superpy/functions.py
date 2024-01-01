@@ -424,8 +424,8 @@ def revenu_yesterday(yesterday):
       print("Yesterday's revenue:",revenue_today(yesterday, print_result=False))
       return
 
-   
-# 31-12-2023 13.52 u
+
+# 1 jan 2024 13.0 u
 
 
 
