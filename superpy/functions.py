@@ -387,8 +387,8 @@ def report_yesterday(yesterday):#w?y
       return
 
 sold_file_path=os.path.join('data', 'sold.csv')
-def revenue_today(today):
-    print('function.py:revenu_today()',today)#w?y
+def revenue_today(today, print_result=True):
+    #print('function.py:revenu_today()',today)#w?y
     #get the internal_date
     today_date=get_internal_date()#wtype datetime
    
@@ -402,26 +402,31 @@ def revenue_today(today):
     
     #test the sold.csv data by a loop: get only the sell_date #w?y
     for row in sold_rows:
-          #print("L405:'sell_price",row['sell_price'])
-          #print("L406:'sell_date",row['sell_date'])#w?y 
-          #print("L407 row['sell_date']",type(row['sell_date']))#w?y type string
-
           #convert the sell_date from string to datetime
           sell_date_convert_datetime=string_to_datetime(row['sell_date'])#w?y type datetime
-          #print("L411 sell_date_convert_datetime",sell_date_convert_datetime)#w?y
-          #print("L412 type(sell_date_convert_datetime)",type(sell_date_convert_datetime))#w?y
-
+          
           #check if sell_date_convert_datetime ==today_date
           if sell_date_convert_datetime ==today_date:
-               #print('true')
                total_revenue_today =total_revenue_today + float(row['sell_price'])
-               #print("L417 total_revenue_today :",total_revenue_today)
-    
-    print("total_revenue_today :",total_revenue_today)
+              
+    if print_result:
+       print("Today's revenue so far:",total_revenue_today)
     return total_revenue_today
-    #print("L421 total_revenue_today :",total_revenue_today)
+    
+def revenu_yesterday(yesterday):
+      
+      #use function advance_time()to set the internal_date one day back
+      yesterday_date=advance_time(-1)#w?y type datetime
+      
+      #invoke the function revenue_today() to calculate the revenue of yesterday
+      revenue_today(yesterday,print_result=False)
 
+      print("Yesterday's revenue:",revenue_today(yesterday, print_result=False))
+      return
+
+   
 # 31-12-2023 13.52 u
+
 
 
 

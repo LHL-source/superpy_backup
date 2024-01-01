@@ -116,3 +116,40 @@ id sell_price
 3  1.5
 totaal:5.5
 xx end xxx
+
+date:31-12-2023
+the comman:python main.py report revenue --yesterday
+starting point:
+1) today is mean the value of internal_date which is displayed in the internal_date.csv,
+so yesterday is internal_date minus 1 day
+2) in sold.csv each row has only 1 item (of product)
+3)revenue is the sold_price of products in a certain periode in formule:
+revenue=[(sold_price x product)of certain periode], example follow
+
+
+Description: in the sold.csv are colomns. Calculate the revenu of today. 
+
+1)Today: is the value of the variabel internale_date in internale_date.csv:
+internale_date 
+2023-12-07
+
+2)revenue=sold_price x product, in certain periode
+
+sold.csv :
+id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_date
+1,5,2023-12-6,2.0,appel,2023-11-25,0.4,2023-12-31
+2,4,2023-12-6,2.0,appel,2023-11-25,0.4,2023-12-31
+3,3,2023-12-6,1.5,banan,2023-11-25,0.4,2023-12-31
+4,2,2023-12-5,2.0,appel,2023-11-25,0.4,2023-12-31
+5,1,2023-12-4,1.5,banan,2023-11-25,0.4,2023-12-31
+6,6,2023-12-9,2.0,appel,2023-11-25,0.4,2023-12-31
+7,7,2023-12-10,1.0,orange,2023-11-25,0.4,2023-12-31
+
+expected result:
+id 1,2,3
+id sell_price
+1  2.2
+2  2.2
+3  1.5
+totaal:5.9
+xxx the end xxx

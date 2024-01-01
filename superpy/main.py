@@ -88,7 +88,7 @@ def main():
            
            add_sold_product(args.product_name,args.price)
     elif args.command =='report':#works? yes
-           print('into main.py report')
+           #print('into main.py report')
 
            if args.report_command=='inventory':#w?
               print('into main.py/report_inventory')#w?y
@@ -104,13 +104,14 @@ def main():
                 
 
            elif args.report_command=='revenue':#w?y
-               print('into report_revenue')#w?y
+               #print('into report_revenue')#w?y
                if args.today:#w?y
-                    print('go to def revenu_today')#w?y
+                    #print('go to def revenu_today')#w?y
                     revenue_today(args.today)
 
                elif args.yesterday:#w?y
-                   print('go to def revenu_yesterday()')
+                   #print('main L113 go to def revenu_yesterday()')#wy
+                   revenu_yesterday(args.yesterday)
                elif args.date:#w?y
                    print('go to def revenu_date()')   
 
