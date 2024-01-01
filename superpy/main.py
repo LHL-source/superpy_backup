@@ -61,7 +61,7 @@ def main():
     #definieer argument-groups voor (report) profit works?yes
     profit_group=profit_parser.add_argument_group("Profit options")
     #voeg de argumenten toe aan profit_group
-    profit_group.add_argument("--today", type=str, help="Profit of today")
+    profit_group.add_argument("--today",nargs='?',const="today", help="Profit of today")
 
     args = parser.parse_args()
     
@@ -111,14 +111,13 @@ def main():
 
                elif args.yesterday:#w?y
                    #print('main L113 go to def revenu_yesterday()')#wy
-                   revenu_yesterday(args.yesterday)
+                   revenu_yesterday(args.yesterday)#w/y
                elif args.date:#w?y
                    print('go to def revenu_date()')   
 
            elif args.report_command=='profit':#w?y
-               print('into report_profit')#w?y
-               print('go to def profit_today()')#w?y
-            
+               #print('go to def report_profit_today()')#w?y
+               report_profit_today(args.today)#w?y
 
 if __name__ == "__main__":
     main()

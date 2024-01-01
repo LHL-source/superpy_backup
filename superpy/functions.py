@@ -425,7 +425,36 @@ def revenu_yesterday(yesterday):
       return
 
 
-# 1 jan 2024 13.0 u
+sold_file_path=os.path.join('data', 'sold.csv')
+def report_profit_today(today):#type(today)=string
+      
+      #get the internal_date
+      today_date=get_internal_date()#w y, type datetime
+      
+      #read the sold.csv
+      with open (sold_file_path,'r') as sold_file:#w?y
+           sold_reader= csv.DictReader(sold_file)#w?y
+           sold_rows=list(sold_reader)#w?y
+
+      #open sol.csv file:
+      #initiate two variables:
+      count_profit=0 
+      total_profit=0
+
+      #read the data with a for/loop
+      for row in sold_rows:
+          #convert the sell_date from string to datetime
+          sell_date_convert_datetime=string_to_datetime(row['sell_date'])#w?y type datetime
+
+       
+          if sell_date_convert_datetime== today_date:            
+                count_profit=float(row['sell_price'])-float(row['buy_price'])#w?y
+                total_profit=total_profit + count_profit#w?y, type float
+                
+      print('Total profit of today {:.2f}'.format(total_profit)) 
+      return
+      
+# 1 jan 2024 16.18 u
 
 
 

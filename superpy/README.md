@@ -153,3 +153,56 @@ id sell_price
 3  1.5
 totaal:5.9
 xxx the end xxx
+date:1-1-2024
+ command: python main.py report profit --today
+starting point:
+1)the value internal_date of internal_date.csv is the date which will be usd as "today"
+2)in sold.csv each row represent 1 product
+3) the formule for profit : (sell_price minu buy_price)*amount of product of today
+4) the expression for today is : sell_date == internal_date
+
+data used:
+internal_date.csv
+internal_date
+2023-12-07
+
+sold.csv
+test scenario:
+a)sell-date == internal_date
+b)sell_date < internal_date
+c)sell_date > internal_date
+
+stel je hebt volgende data:
+id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_date
+1,5,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+2,4,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+3,3,2023-12-6,1.5,banan,2023-11-25,0.4,2023-12-31
+4,2,2023-12-5,2.0,appel,2023-11-25,0.4,2023-12-31
+5,1,2023-12-10,1.5,banan,2023-11-25,0.4,2023-12-31
+6,6,2023-12-9,2.0,appel,2023-11-25,0.4,2023-12-31
+7,7,2023-12-7,1.0,orange,2023-11-25,0.3,2023-12-31
+
+For test scenario a:
+a)sell-date == internal_date
+id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_date
+1,5,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+2,4,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+7,7,2023-12-7,1.0,orange,2023-11-25,0.4,2023-12-31
+
+b)sell_date < internal_date
+id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_date
+3,3,2023-12-6,1.5,banan,2023-11-25,0.4,2023-12-31
+4,2,2023-12-5,2.0,appel,2023-11-25,0.4,2023-12-31
+
+c)sell_date > internal_date
+5,1,2023-12-10,1.5,banan,2023-11-25,0.4,2023-12-31
+6,6,2023-12-9,2.0,appel,2023-11-25,0.4,2023-12-31
+
+expected result:
+id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_date
+1,5,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+2,4,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+7,7,2023-12-7,1.0,orange,2023-11-25,0.3,2023-12-31
+
+((2,0-/-0,4)+(2,0 -/-0.4)+(1,0 -/-0.3))=3,9
+profit of today=3,9
