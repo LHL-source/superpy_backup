@@ -479,7 +479,7 @@ def report_profit_today(today):#type(today)=string
       print('Total profit of today ',formatted_profit) 
       return
       
-# 1 jan 2024 16.18 u
+# 15 jan 2024 20.10 u
 
 
 
