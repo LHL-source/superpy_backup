@@ -206,3 +206,44 @@ id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_dat
 
 ((2,0-/-0,4)+(2,0 -/-0.4)+(1,0 -/-0.3))=3,9
 profit of today=3,9
+
+date:1-1-2024 22.34 u
+command: python main.py sell --product_name orange --price 2
+ERROR: Product not in stock.
+
+The inputis:python main.py sell --product-name orange --price 2
+The output is:ERROR: Product not in stock.
+
+Decription how it works:
+1)So the user gives the command:python main.py sell --product-name orange --price 2
+2)The application will check in the function: add_sold_product(product_name,sell_price), 2a)the 1e check is: if there is product name which is mentioned in the command. If NOT the output will be :ERROR: Product not in stock. If there IS a product_name which is mentioned in the command than the 2e check will take place:
+2b)if expiration_date_convert_date >=internal_date_value_convert_toDate. If this is false than the output will be:ERROR 2: Product not in stock.
+3)So the 1e question is :Because I only know the input and output so I have to puzzle out the function, question is do you agreed with the logic?(I can not ask the mentor in the python chat because today is 1 jan 2024 the chat is closed)
+
+extra information:
+1)As you can see the data of sold.csv has coloms which are coming from bought.csv: bought_id,product_name, buy_date,buy_price,expiration_date
+
+
+starting point and data for overview:
+internale_date.csv is date of today:
+intenale_date.csv
+internal_date
+2023-12-07
+
+The sold.csv has colomns for example:
+id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_date
+1,5,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+
+
+Test scenario A: for if there is no product_name in bought.csv which match the command:  python main.py sell --product-name orange --price 2
+bought.csv
+id,product_name,buy_date,buy_price,expiration_date
+1,appel,2023-11-25,0.4,2023-12-31
+2,banana,2023-11-25,0.4,2023-12-31
+
+Test scenario B: for if : expiration_date_convert_date >=internal_date_value_convert_toDate =FALSE (see id 3)
+bought.csv
+id,product_name,buy_date,buy_price,expiration_date
+1,appel,2023-11-25,0.4,2023-12-31
+2,banana,2023-11-25,0.4,2023-12-31
+3,orange,2023-11-25,0.5,2023-12-05

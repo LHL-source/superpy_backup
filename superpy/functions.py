@@ -157,11 +157,9 @@ sold_file_path=os.path.join('data', 'sold.csv')
 bought_file_path=os.path.join('data', 'bought.csv')
 internal_date_file_path=os.path.join('data', 'internal_date.csv')
 
-def add_sold_product(product_name,sell_price):
-      #print("function:add_sold_product/product_name:",product_name)#w?y
-      #print('function:add_sold_product/sell_price:',sell_price)#w?y 
+def add_sold_product(product_name,sell_price):#command :product_name type : string
       
-      #open internal_date.csv
+      #on internal_date.csv
       with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
               existing_content=list(reader)#w?y
@@ -186,20 +184,34 @@ def add_sold_product(product_name,sell_price):
       with open (bought_file_path, 'r') as bought_file:#w?y
            bought_reader=csv.DictReader(bought_file)
            bought_rows=list(bought_reader)
+
+           #for row in bought_rows:#w?y
+                 #print("L191 row", row)
+                 #print('L192 product_name',product_name)#command:product_name
+                 #print("L194 row ['product_name']",row ['product_name'])
+                 #print('L195 product_name of bought.csv ',type(product_name))#w?y type is string
          
            #Find relevant_rows[] in bought.csv
            relevant_rows=[]
            for row in bought_rows:
                if row ['product_name']==product_name:#w?t
                    relevant_rows.append(row)#w?y
-          
-           #Print each row in relevant_rows
-           for eachRow in relevant_rows:
-               eachRow_expiration_date=eachRow['expiration_date'].strip()                 
-                   
+           if not relevant_rows:
+                     print('ERROR 1: Product not in stock')
+                     return
+                           
            #Find the row with minimum expiration date not exceeding internal_date
            min_exp_date_row=None
            add_product_name=None
+
+           # Initialize variables outside of the if-else block
+           add_product_name = None
+           add_buy_date = None
+           add_buy_price = None
+           add_expiration_date = None
+           
+           relevant_rows_1=[]
+           #iterate through each row in relevant_rows
            for row in relevant_rows:
                
                try:
@@ -216,13 +228,26 @@ def add_sold_product(product_name,sell_price):
                if expiration_date_convert_date >=internal_date_value_convert_toDate:
                      min_exp_date_row=row
                      min_exp_date_row['id']
+
+                     # Update variables with values from the row
+                     add_product_name = row['product_name']
+                     add_buy_date = row['buy_date']
+                     add_buy_price = row['buy_price']
+                     add_expiration_date = row['expiration_date']
+               
+                     relevant_rows_1.append(row)
+          
+           #check if relevant_rows_1 is empty
+           if not relevant_rows_1:
+                 print('Error2:Product not in stock')
+                 return
                      
-                     #add bought.csv coloms:product_name,buy_date,buy_price,expiration_date
-                     # to sold.csv 
-                     add_product_name=row['product_name']#w?y type:string                  
-                     add_buy_date=row['buy_date']#w?y type:string
-                     add_buy_price=row['buy_price']#w?y type:string
-                     add_expiration_date=row['expiration_date']#w?y type:string
+           #add bought.csv coloms:product_name,buy_date,buy_price,expiration_date
+           # to sold.csv 
+           add_product_name=row['product_name']#w?y type:string                  
+           add_buy_date=row['buy_date']#w?y type:string
+           add_buy_price=row['buy_price']#w?y type:string
+           add_expiration_date=row['expiration_date']#w?y type:string
                      
            new_row={
                           'id': new_sold_row_id,
@@ -450,8 +475,8 @@ def report_profit_today(today):#type(today)=string
           if sell_date_convert_datetime== today_date:            
                 count_profit=float(row['sell_price'])-float(row['buy_price'])#w?y
                 total_profit=total_profit + count_profit#w?y, type float
-                
-      print('Total profit of today {:.2f}'.format(total_profit)) 
+      formatted_profit=round(total_profit,2)          
+      print('Total profit of today ',formatted_profit) 
       return
       
 # 1 jan 2024 16.18 u
