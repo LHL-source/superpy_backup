@@ -113,7 +113,10 @@ def main():
                    #print('main L113 go to def revenu_yesterday()')#wy
                    revenu_yesterday(args.yesterday)#w/y
                elif args.date:#w?y
-                   print('go to def revenu_date()')   
+                   #print('L 116 go to def revenu_date()') 
+                   #print('L 117:',args.date) 
+                   #print('L 118 type(args.date):',type(args.date))# type(string) 
+                   revenu_date(args.date)  
 
            elif args.report_command=='profit':#w?y
                #print('go to def report_profit_today()')#w?y
@@ -121,3 +124,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+#16-jan-2024 18.14 u

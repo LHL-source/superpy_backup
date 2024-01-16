@@ -478,8 +478,15 @@ def report_profit_today(today):#type(today)=string
       formatted_profit=round(total_profit,2)          
       print('Total profit of today ',formatted_profit) 
       return
-      
-# 15 jan 2024 20.10 u
+
+def revenu_date(date):
+      print('into function.py L483',date)#w?type(string) w?y
+      today_date=get_internal_date(date)
+      print('L485 today_date ',today_date)
+      print('L485 today_date ',type(today_date))
+     
+      return
+# 16 jan 2024 18.14 u
 
 
 
