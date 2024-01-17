@@ -11,6 +11,8 @@ from rich.table import Table
 from rich import print
 from rich.console import Console
 
+import pandas as pd
+
 
 def string_to_datetime(date_string, format='%Y-%m-%d'):#w?y
      
@@ -25,6 +27,7 @@ def string_to_datetime(date_string, format='%Y-%m-%d'):#w?y
      """
      return datetime.strptime(date_string, format)
 
+
 def datetime_to_string(date_object,format='%Y-%m-%d'):#w?y
      """
      Convert a datetime object to a string
@@ -35,8 +38,6 @@ def datetime_to_string(date_object,format='%Y-%m-%d'):#w?y
      -str: The formattewd date string.
      """
      return date_object.strftime(format)
-# make function:internal_date()
-
 
 
 def get_internal_date ():#w?y
@@ -57,7 +58,9 @@ def get_internal_date ():#w?y
                         writer.writerow({'internal_date': datetime_to_string(date.today())})
               return datetime_to_string(date.today())  
 
-func_py_get_internal_date=get_internal_date()
+#func_py_get_internal_date=get_internal_date()
+
+
 
 #function date_type convert:a string into datetime object into string (again)
 def date_type(date_string,):#w?y
@@ -479,14 +482,35 @@ def report_profit_today(today):#type(today)=string
       print('Total profit of today ',formatted_profit) 
       return
 
-def revenu_date(date):
-      print('into function.py L483',date)#w?type(string) w?y
-      today_date=get_internal_date(date)
-      print('L485 today_date ',today_date)
-      print('L485 today_date ',type(today_date))
-     
-      return
-# 16 jan 2024 18.14 u
+sold_file_path=os.path.join('data', 'sold.csv')
+def revenu_date(date):#w?y
+      date_object=datetime.strptime(date,'%Y-%m')#w?y convert string into datetime object
+      #read the sold.csv
+      with open (sold_file_path,'r') as sold_file:#w?y
+           sold_reader= csv.DictReader(sold_file)#w?y
+           #sold_rows=list(sold_reader)#w?y
+           total_revenue=0
+           for row in sold_reader:
+                 sell_date=datetime.strptime(row['sell_date'],'%Y-%m-%d')
+                 if sell_date.year==2023 and sell_date.month==12:#w?y
+                      
+                       revenue=float(row['sell_price'])
+                       total_revenue+=revenue
+           print(f'Revenue from {date_object.strftime("%B %Y")}:{total_revenue}')
+
+           #put the result in an excel document
+           data_object_1=date_object.strftime("%B %Y")
+           #create a dynamic dictionary
+           result_dict={'Month':[data_object_1],'Revenue':[ total_revenue]}
+           #print(result_dict)#w?y
+
+           #create a DataFrame
+           df=pd.DataFrame(result_dict)
+           #Export to Excel
+           df.to_excel('revenue_report.xlsx', index=False)
+      return 
+
+# 17 jan 2024 21.00 u
 
 
 

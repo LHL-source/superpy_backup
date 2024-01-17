@@ -247,3 +247,25 @@ id,product_name,buy_date,buy_price,expiration_date
 1,appel,2023-11-25,0.4,2023-12-31
 2,banana,2023-11-25,0.4,2023-12-31
 3,orange,2023-11-25,0.5,2023-12-05
+
+17 jan 2024
+command:python main.py report revenue --date 2023-12
+1)geen internale_date nodig
+2)sold.csv :
+id,bought_id,sell_date,sell_price,product_name,buy_date,buy_price,expiration_date
+1,5,2023-12-7,2.0,appel,2023-11-25,0.4,2023-12-31
+2,4,2023-11-7,2.0,appel,2023-11-25,0.4,2023-12-31
+3,3,2023-12-1,1.5,banan,2023-11-25,0.4,2023-12-31
+4,2,2023-12-30,0.5,appel,2023-11-25,0.4,2023-12-31
+5,1,2023-10-4,1.5,banan,2023-11-25,0.4,2023-12-31
+6,6,2023-9-9,2.0,appel,2023-11-25,0.4,2023-12-31
+7,7,2023-11-10,1.0,orange,2023-11-25,0.4,2023-12-31
+
+expected result:
+id 1,3,4
+id sell_price
+1  2.0
+3  1.5
+4  0.5
+total revue of dec 2024:4.0
+output:Revenue from December 2023: 4.0
