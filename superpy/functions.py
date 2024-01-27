@@ -510,7 +510,7 @@ def revenu_date(date):#w?y
            df.to_excel('revenue_report.xlsx', index=False)
       return 
 
-# 22 jan 2024 einde
+# 27 jan 2024 einde
 
 
 

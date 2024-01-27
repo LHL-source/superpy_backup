@@ -247,6 +247,7 @@ id,product_name,buy_date,buy_price,expiration_date
 1,appel,2023-11-25,0.4,2023-12-31
 2,banana,2023-11-25,0.4,2023-12-31
 3,orange,2023-11-25,0.5,2023-12-05
+the end
 
 17 jan 2024
 command:python main.py report revenue --date 2023-12
@@ -269,3 +270,4 @@ id sell_price
 4  0.5
 total revue of dec 2024:4.0
 output:Revenue from December 2023: 4.0
+the end
