@@ -9,16 +9,15 @@ from functions import *
 
 from functions import date_type
 
-# Do not change these lines.
 __winc_id__ = "a2bc36ea784242e4989deb157d527ba0"
 __human_name__ = "superpy"
 
 
 # Your code below this line.
 def main():
-#hieronder :sub-parse:report #w?????
+#hieronder :sub-parse:report 
     parser=argparse.ArgumentParser(description="Superpy Supermarket Inventory")
-    #voeg argument toe waar aan?(er is GEEN command en sub-command (b.v. report_command))#works?
+    #voeg argument toe waar aan?(er is GEEN command en sub-command (b.v. report_command))
     parser.add_argument("--advance_time",type=int, help="for advanced time 2 days ,please type:2")
     #wat de gebruiker als sumcommand heeft ingevulde keuze:buy, sell , report komt als value in attribute command
     subparser=parser.add_subparsers(dest="command")
@@ -45,73 +44,65 @@ def main():
     #hieronder DEFINIEER argument groups voor "report"
     report_group=report_parser.add_argument_group("Report options")
 
-    #hieronder DEFINEER argument groups for inventory w?yes 
+    #hieronder DEFINEER argument groups for inventory 
     inventory_group=inventory_parser.add_argument_group("Inventory options")
     #voeg de argumenten toe aan inventory_group
-    inventory_group.add_argument("--yesterday",type=str, help="Report inventory for yesterday")
-    inventory_group.add_argument("--now", nargs='?', const=None, help="Report inventory for today")
+    inventory_group.add_argument("--yesterday", nargs='?',const="yesterday", help="Report inventory for yesterday")
+    inventory_group.add_argument("--now", nargs='?', const="now", help="Report inventory for today")
 
-    #hieronder definieer argument groups voor (report) revenue w? yes 
+    #hieronder definieer argument groups voor (report) revenue 
     revenue_group=revenue_parser.add_argument_group("Revenue options")
     #voeg de argumenten toe aan revenue_group
-    revenue_group.add_argument("--yesterday", type=str, help="Report revenue for yesterday")
-    revenue_group.add_argument("--today",type=str, help="Report revenue for today")
-    revenue_group.add_argument("--date",type=str, help="Report revenue for specific date(e.g.'2019-12')")
+    revenue_group.add_argument("--yesterday", nargs='?',const="yesterday", help="Report revenue for yesterday")
+    revenue_group.add_argument("--today",nargs='?',const="today", help="Report revenue for today")
+    revenue_group.add_argument("--date",nargs='?',const="2023-12", help="Report revenue for specific date(e.g.'2023-12')")
 
-    #definieer argument-groups voor (report) profit works?yes
+    #definieer argument-groups voor (report) profit 
     profit_group=profit_parser.add_argument_group("Profit options")
     #voeg de argumenten toe aan profit_group
-    profit_group.add_argument("--today", type=str, help="Profit of today")
+    profit_group.add_argument("--today",nargs='?',const="today", help="Profit of today")
 
     args = parser.parse_args()
     
     
-    mainPy_get_internal_date=get_internal_date()#w?y
-    #print('r17 mainPy_get_internal_date()',mainPy_get_internal_date)#w?y
-    #print('r18 type(mainPy_get_internal_date)',type(mainPy_get_internal_date))#w?y
+    mainPy_get_internal_date=get_internal_date()
+    
 
     if args.advance_time :
          mainPy_args_advance_time=advance_time(args.advance_time)
-         #print(' mainPy_args_advance_time', mainPy_args_advance_time)
-         #print('type(mainPy_args_advance_time)',type(mainPy_args_advance_time))
+         
     else:
          pass
          
-    if args.command =='buy':#w?yes
+    if args.command =='buy':
         pass
-        #print('go to def add_buy_product()')
-        add_buy_product(args.product_name,args.price,args.expiration_date)#w?y
-        #print('oke (of buy)')
-
-           #add_buy_product(args.product_name,args.price)#uitgehaald:,args.expiration_date
-    elif args.command =='sell':#works? yes
+        add_buy_product(args.product_name,args.price,args.expiration_date)
            
+    elif args.command =='sell':
            add_sold_product(args.product_name,args.price)
-    elif args.command =='report':#works? yes
-           print('into report')
+    elif args.command =='report':
 
-           if args.report_command=='inventory':#w?
-              print('into main.py/report_inventory')#w?y
-              report_now(args.now)
-              if args.yesterday:#w?y
+           if args.report_command=='inventory':
+             
+              if args.yesterday:
                     print('go to def report_yesterday()')
-              elif args.now:#works?y
-                    #print('main.py:go to def report_now()')
-                    report_now(args.now)
+                    report_yesterday(args.yesterday)
+                    
+              elif args.now:
+                    report_now(args.now)                
 
-                
+           elif args.report_command=='revenue':
+               if args.today:
+                    revenue_today(args.today)
 
-           elif args.report_command=='revenue':#w?y
-               print('into report_revenue')
-               if args.yesterday:#w?y
-                   print('go to def revenu_yesterday()')
-               elif args.date:#w?y
-                   print('go to def revenu_date()')   
+               elif args.yesterday:
+                   revenu_yesterday(args.yesterday)
+               elif args.date:
+                   revenu_date(args.date)  
 
-           elif args.report_command=='profit':#w?y
-               print('into report_profit')#w?y
-               print('go to def profit_today()')#w?y
-            
+           elif args.report_command=='profit':
+               report_profit_today(args.today)
 
 if __name__ == "__main__":
     main()
+#30 jan 2024 einde

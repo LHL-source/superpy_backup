@@ -6,12 +6,15 @@ import csv
 import os
 import argparse
 
+from collections import defaultdict
 from rich.table import Table
 from rich import print
 from rich.console import Console
 
+import pandas as pd
 
-def string_to_datetime(date_string, format='%Y-%m-%d'):#w?y
+
+def string_to_datetime(date_string, format='%Y-%m-%d'):
      
 
      """
@@ -24,7 +27,8 @@ def string_to_datetime(date_string, format='%Y-%m-%d'):#w?y
      """
      return datetime.strptime(date_string, format)
 
-def datetime_to_string(date_object,format='%Y-%m-%d'):#w?y
+
+def datetime_to_string(date_object,format='%Y-%m-%d'):
      """
      Convert a datetime object to a string
      Parameters:
@@ -34,14 +38,12 @@ def datetime_to_string(date_object,format='%Y-%m-%d'):#w?y
      -str: The formattewd date string.
      """
      return date_object.strftime(format)
-# make function:internal_date()
 
 
-
-def get_internal_date ():#w?y
+def get_internal_date ():
     internal_date_file_path=os.path.join('data', 'internal_date.csv')
     #check if the file exists
-    if os.path.exists(internal_date_file_path):#w?y
+    if os.path.exists(internal_date_file_path):
          with open(internal_date_file_path,'r',) as file:
               reader=csv.DictReader(file)
               row=next(reader, None)
@@ -56,65 +58,57 @@ def get_internal_date ():#w?y
                         writer.writerow({'internal_date': datetime_to_string(date.today())})
               return datetime_to_string(date.today())  
 
-func_py_get_internal_date=get_internal_date()
 
-#function date_type convert:a string into datetime object into string (again)
-def date_type(date_string,):#w?y
+
+#function date_type convert:a string into datetime object into string 
+def date_type(date_string,):
     try:
-        date_object=datetime.strptime(date_string,'%Y-%m-%d')#object datetime
-        formated_date_object=date_object.strftime('%Y-%m-%d')#convert object datetime into string
+        date_object=datetime.strptime(date_string,'%Y-%m-%d')
+        formated_date_object=date_object.strftime('%Y-%m-%d')
         
         return formated_date_object
     except ValueError:
         raise argparse.ArgumentTypeError("Invalid date format. Use 'year-month-day' (e.g.,'2023-10-15).")
 
-def advance_time(advance_time):#w?yes
-    #current_day=date.today()
-    #future_date=current_day + timedelta(advance_time)
-
-    # # Update the internal date in the CSV file
+def advance_time(advance_time): 
+    # Update the internal date in the CSV file
     internal_date_file_path=os.path.join('data', 'internal_date.csv')
-    #print('r70/funcPY internal_date_file_path:', os.path.abspath(internal_date_file_path))  # Add this line
+   
     existing_content=[]
-    #Read the existing content
+    #Read if there is a the existing content
     if os.path.exists(internal_date_file_path):
          with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
               existing_content=list(reader)
-              #print('existing_content',existing_content)
+              
 
-    #update the content
+    #update the content if do not exist
     if existing_content:
-              #print('existing_content is trufy')
               #get the existing internalt_date
               existing_internal_date=string_to_datetime(existing_content[0]['internal_date'])
               #calculate the future date based on the existing date
               future_date=existing_internal_date+timedelta(advance_time)
               #update the internal_date value
               existing_content[0]['internal_date']=datetime_to_string(future_date)
-              #print('datetime_to_string(future_date)',datetime_to_string(future_date))
-              #print('existing_content[0][''internal_date'']',existing_content[0]['internal_date'])
-             #existing_content[0]['internal_date']=datetime_to_string(future_date)
-    
+               
     #write the updated content back to the file
     with open(internal_date_file_path,'w', newline='') as file:
          writer=csv.DictWriter(file,fieldnames=['internal_date'])
          writer.writeheader()
          writer.writerows(existing_content)
-    return future_date #w?y
-    #else:
-         #pass
-         #return None
+    print('oke')
+    return future_date 
+    
 
 
-#define file_path
+#the buy function
 file_path=os.path.join('data','bought.csv')
 internal_date_file_path=os.path.join('data', 'internal_date.csv')
-def add_buy_product(product_name,buy_price,expiration_date,):#w?yes
+def add_buy_product(product_name,buy_price,expiration_date,):
   
   with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
-              existing_content=list(reader)#w?y
+              existing_content=list(reader)
               buy_date_value= existing_content[0]['internal_date']
               
   with open (file_path,'r') as file:
@@ -122,9 +116,9 @@ def add_buy_product(product_name,buy_price,expiration_date,):#w?yes
     rows=list(reader)
  
     maximum=0
-    for eachRow in rows:#works? y
+    for eachRow in rows:
         #de waarde/value van id is een string conver naar een integer 
-        id_int=int(eachRow['id'])#works?y
+        id_int=int(eachRow['id'])
         if id_int > maximum:
             maximum =id_int
     new_row_id=maximum + 1
@@ -138,10 +132,10 @@ def add_buy_product(product_name,buy_price,expiration_date,):#w?yes
     
     }
    
-    rows.append(new_row)#w?y
-    #print('r 69 rows ', rows)#w?y good job
-
-    # add to the file: bought.csv:test_file_with_Id.csv
+    rows.append(new_row)
+    print('Oke')
+    
+    # the end of comment buy
 
     
   with open (file_path,'w', newline='') as file:#w?yes wel done
@@ -156,11 +150,9 @@ sold_file_path=os.path.join('data', 'sold.csv')
 bought_file_path=os.path.join('data', 'bought.csv')
 internal_date_file_path=os.path.join('data', 'internal_date.csv')
 
-def add_sold_product(product_name,sell_price):
-      #print("function:add_sold_product/product_name:",product_name)#w?y
-      #print('function:add_sold_product/sell_price:',sell_price)#w?y 
+def add_sold_product(product_name,sell_price):#command :product_name type : string
       
-      #open internal_date.csv
+      #on internal_date.csv
       with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
               existing_content=list(reader)#w?y
@@ -185,20 +177,34 @@ def add_sold_product(product_name,sell_price):
       with open (bought_file_path, 'r') as bought_file:#w?y
            bought_reader=csv.DictReader(bought_file)
            bought_rows=list(bought_reader)
+
+           #for row in bought_rows:#w?y
+                 #print("L191 row", row)
+                 #print('L192 product_name',product_name)#command:product_name
+                 #print("L194 row ['product_name']",row ['product_name'])
+                 #print('L195 product_name of bought.csv ',type(product_name))#w?y type is string
          
            #Find relevant_rows[] in bought.csv
            relevant_rows=[]
            for row in bought_rows:
                if row ['product_name']==product_name:#w?t
                    relevant_rows.append(row)#w?y
-          
-           #Print each row in relevant_rows
-           for eachRow in relevant_rows:
-               eachRow_expiration_date=eachRow['expiration_date'].strip()                 
-                   
+           if not relevant_rows:
+                     print('ERROR 1: Product not in stock')
+                     return
+                           
            #Find the row with minimum expiration date not exceeding internal_date
            min_exp_date_row=None
            add_product_name=None
+
+           # Initialize variables outside of the if-else block
+           add_product_name = None
+           add_buy_date = None
+           add_buy_price = None
+           add_expiration_date = None
+           
+           relevant_rows_1=[]
+           #iterate through each row in relevant_rows
            for row in relevant_rows:
                
                try:
@@ -215,13 +221,26 @@ def add_sold_product(product_name,sell_price):
                if expiration_date_convert_date >=internal_date_value_convert_toDate:
                      min_exp_date_row=row
                      min_exp_date_row['id']
+
+                     # Update variables with values from the row
+                     add_product_name = row['product_name']
+                     add_buy_date = row['buy_date']
+                     add_buy_price = row['buy_price']
+                     add_expiration_date = row['expiration_date']
+               
+                     relevant_rows_1.append(row)
+          
+           #check if relevant_rows_1 is empty
+           if not relevant_rows_1:
+                 print('Error2:Product not in stock')
+                 return
                      
-                     #add bought.csv coloms:product_name,buy_date,buy_price,expiration_date
-                     # to sold.csv 
-                     add_product_name=row['product_name']#w?y type:string                  
-                     add_buy_date=row['buy_date']#w?y type:string
-                     add_buy_price=row['buy_price']#w?y type:string
-                     add_expiration_date=row['expiration_date']#w?y type:string
+           #add bought.csv coloms:product_name,buy_date,buy_price,expiration_date
+           # to sold.csv 
+           add_product_name=row['product_name']#w?y type:string                  
+           add_buy_date=row['buy_date']#w?y type:string
+           add_buy_price=row['buy_price']#w?y type:string
+           add_expiration_date=row['expiration_date']#w?y type:string
                      
            new_row={
                           'id': new_sold_row_id,
@@ -264,68 +283,215 @@ def add_sold_product(product_name,sell_price):
 
       return
 
-# make a function to make report
+# make a function to make report_now
 bought_file_path=os.path.join('data', 'bought.csv')
 internal_date_file_path=os.path.join('data', 'internal_date.csv')
-def  report_now(now):#w? y type:string
-     #print("into function.py, function report_now(now)")#w?y
-     #print('into functions.py_report_now():')
-     #print( 'L 270 now:',now)#w?y
-     #print('L271 type(now):',type(now))#w?y
-
+def  report_now(now):
      
-
      #add rows in the table:but first open sold.csv and read the row(s)
      with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
-              existing_content=list(reader)#w?y
-              internal_date= existing_content[0]['internal_date']#w?y type:string
-              #print('L283 internal_date',internal_date)#w?y
-              #print('L284 type(internal_date)',type(internal_date))#w?y type string
+              existing_content=list(reader)
+              internal_date= existing_content[0]['internal_date']        
 
-     with open (bought_file_path, 'r') as bought_file:#w?y
+     with open (bought_file_path, 'r') as bought_file:
            bought_reader=csv.DictReader(bought_file)
-           bought_rows=list(bought_reader)#w?y type:list of dictionary
-           
-     #print('L 290 bought_rows',bought_rows)#w? y
-     #print('L 291 type(bought_rows)',type(bought_rows))#w?y type class:list
-
-     for row in bought_rows:
-          #print(f"Processing row:{row}")#w?y
-          #define a new list (of dictionary) ALL products with expiration_date >= internal_date
-          all_product_expDate_QualOrLargerThan_internalDate=[]
-          #convert expiration_date to a datetime also for internaldate
-          exp_date_in_datetime=string_to_datetime(row['expiration_date'])#type datetime object
-          #print('L 299 exp_date_in_datetime',exp_date_in_datetime)#w?y
-          #print('L 300 type(exp_date_in_datetime)',type(exp_date_in_datetime))#w?y
-          
-          internalDate_in_datetime=string_to_datetime(internal_date)
-          #print('internalDate_in_datetime',internalDate_in_datetime)#w?y
-          #print('L304 type(internalDate_in_datetime)',type(internalDate_in_datetime))#w?y type datetime object
-          
-          #select only the items which expiration_date >= internal_date
-          if  exp_date_in_datetime>= internalDate_in_datetime:#w?y
-               all_product_expDate_QualOrLargerThan_internalDate.append(row)#w?y
+           bought_rows=list(bought_reader)
      
-          for row in all_product_expDate_QualOrLargerThan_internalDate:#w?y
+     if not bought_rows:
+          #display the table with only the colums
+          table = Table(title="Expected Result")
+          table.add_column("Product Name", justify="center", style="cyan")
+          table.add_column("Count", justify="center", style="magenta")
+          table.add_column("Buy Price", justify="center", style="green")
+          table.add_column("Expiration Date", justify="center", style="yellow")
+          
+          console=Console()
+          console.print(table)
+          return #exit the function if there are no rows
+     
+     # if there are rows in bought.csv, continue with the rest of the logic
+
+     #initialize an empty list called "all_fruits" and select all fruit which expiration_date >=internal_date
+     all_fruits=[]
+     #initialize an empty dictionary called "fruit_counts" to store the dynamic counts
+     fruit_counts= defaultdict(int)
+     
+     for fruit in bought_rows:
+
+                  #convert expiration_date to a datetime also for internaldate
+                  exp_date_in_datetime=string_to_datetime(fruit['expiration_date'])
+          
+                  internalDate_in_datetime=string_to_datetime(internal_date)
+                 
+                  #make a list of Only fruit which expiration_date >== internal_date
+                  #use a empty list of all_fruits
+          
                   
-                  #print('L300 row',row)#w?y
-                  #print('row',type(row))#w?y type:class 'dict'
+                  if exp_date_in_datetime > internalDate_in_datetime:
+                         fruit_info={
+                                     'product_name':fruit['product_name'],
+                                     'expiration_date': exp_date_in_datetime,
+                                     'buy_price': float(fruit['buy_price'])  # Assuming buy_price is a float
+                                     }
+                         all_fruits.append(fruit_info)
+     
+     
+     for fruit in all_fruits:
+          #extract the relevant criteria
+          #criteria=(fruit['product_name'],fruit['expiration_date'])
+                  
+          #for each all_fruits list of dictionary, we extract the relevant criteria(product_name and expiration_date) and 
+          #create a tuple called 'criteria'. This tuple will be used as a key in our 'fruit_counts'
+          criteria=(fruit['product_name'],fruit['expiration_date'])
           
-          #For each product (e.g., apple, banana, orange):
-          #Create a sublist containing only rows for that product here is product_name='appel'
-                   appel_expDate_QualOrLargerThan_internalDate=[]#type class list
-                   print('appel_expDate_QualOrLargerThan_internalDate',type(appel_expDate_QualOrLargerThan_internalDate))
-          if  all_product_expDate_QualOrLargerThan_internalDate['product_name']=='appel':
-                  appel_expDate_QualOrLargerThan_internalDate.append(row)
+          # there are two if-statments:1)exp_date_in_datetime==internalDate_in_datetime AND 2)exp_date_in_datetime >internalDate_in_datetime
+          #first 1)exp_date_in_datetime==internalDate_in_datetime is true than update fruit_counts
+          if exp_date_in_datetime==internalDate_in_datetime:
+                if criteria not in fruit_counts:
+                      fruit_counts[criteria]=1
+                else:
+                      fruit_counts[criteria]+=1
           
-          #controle the  appel_expDate_QualOrLargerThan_internalDate 
-          #for row in appel_expDate_QualOrLargerThan_internalDate :
-               #print('L 322 row',row)
-               #print('L 323type(row)',type(row))
-          
+          elif exp_date_in_datetime > internalDate_in_datetime:
+               if criteria not in fruit_counts:
+                      fruit_counts[criteria]=1
+               else:
+                      fruit_counts[criteria]+=1
+
+          #after processing all fruits, we iterate through the items(key-values pairs) in the
+          #'fruit_counts' dictionary
+          #we print a message for each criteria tuple, indicating the number of occurences
+          #for criteria, count in fruit_counts.items():     
+                                             
+          #create a Rich Table
+          table=Table(title="Expected Result")   
+          table.add_column("Product Name", justify="center", style="cyan") 
+          table.add_column("Count", justify="center", style="magenta")  
+          table.add_column("Buy Price", justify="center", style="green")
+          table.add_column("Expiration Date", justify="center", style="yellow")
+
+          #iterate through fruit_counts dic and add rows to the table
+     for criteria, count in fruit_counts.items():
+          product_name, expiration_date =criteria
+          #the traditional way:
+          buy_price=None
+          for fruit in all_fruits:
+               if fruit in all_fruits:
+                    if fruit['product_name']==product_name and fruit['expiration_date']==expiration_date:
+                          buy_price=fruit['buy_price']
+                          break #exit the loop once a match is found
+          table.add_row(product_name,str(count), str(buy_price),datetime_to_string(expiration_date))
+     #print the table
+     console=Console()
+     console.print(table)
+
      return    
-#hoi 17-12-2023
+
+def report_yesterday(yesterday):
+      print('function.py, report_yesterday() ')
+      advance_time(-1)
+      report_now(yesterday)
+      return
+
+sold_file_path=os.path.join('data', 'sold.csv')
+def revenue_today(today, print_result=True):
+    #print('function.py:revenu_today()',today)#w?y
+    #get the internal_date
+    today_date=get_internal_date()#wtype datetime
+   
+    #initial total revenue for today
+    total_revenue_today=0
+    
+    #read the sold.csv
+    with open (sold_file_path,'r') as sold_file:#w?y
+           sold_reader= csv.DictReader(sold_file)#w?y
+           sold_rows=list(sold_reader)#w?y
+    
+    #test the sold.csv data by a loop: get only the sell_date #w?y
+    for row in sold_rows:
+          #convert the sell_date from string to datetime
+          sell_date_convert_datetime=string_to_datetime(row['sell_date'])#w?y type datetime
+          
+          #check if sell_date_convert_datetime ==today_date
+          if sell_date_convert_datetime ==today_date:
+               total_revenue_today =total_revenue_today + float(row['sell_price'])
+              
+    if print_result:
+       print("Today's revenue so far:",total_revenue_today)
+    return total_revenue_today
+    
+def revenu_yesterday(yesterday):
+      
+      #use function advance_time()to set the internal_date one day back
+      yesterday_date=advance_time(-1)#w?y type datetime
+      
+      #invoke the function revenue_today() to calculate the revenue of yesterday
+      revenue_today(yesterday,print_result=False)
+
+      print("Yesterday's revenue:",revenue_today(yesterday, print_result=False))
+      return
+
+
+sold_file_path=os.path.join('data', 'sold.csv')
+def report_profit_today(today):#type(today)=string
+      
+      #get the internal_date
+      today_date=get_internal_date()#w y, type datetime
+      
+      #read the sold.csv
+      with open (sold_file_path,'r') as sold_file:#w?y
+           sold_reader= csv.DictReader(sold_file)#w?y
+           sold_rows=list(sold_reader)#w?y
+
+      #open sol.csv file:
+      #initiate two variables:
+      count_profit=0 
+      total_profit=0
+
+      #read the data with a for/loop
+      for row in sold_rows:
+          #convert the sell_date from string to datetime
+          sell_date_convert_datetime=string_to_datetime(row['sell_date'])#w?y type datetime
+
+       
+          if sell_date_convert_datetime== today_date:            
+                count_profit=float(row['sell_price'])-float(row['buy_price'])#w?y
+                total_profit=total_profit + count_profit#w?y, type float
+      formatted_profit=round(total_profit,2)          
+      print('Total profit of today ',formatted_profit) 
+      return
+
+sold_file_path=os.path.join('data', 'sold.csv')
+def revenu_date(date):#w?y
+      date_object=datetime.strptime(date,'%Y-%m')#w?y convert string into datetime object
+      #read the sold.csv
+      with open (sold_file_path,'r') as sold_file:#w?y
+           sold_reader= csv.DictReader(sold_file)#w?y
+           #sold_rows=list(sold_reader)#w?y
+           total_revenue=0
+           for row in sold_reader:
+                 sell_date=datetime.strptime(row['sell_date'],'%Y-%m-%d')
+                 if sell_date.year==2023 and sell_date.month==12:#w?y
+                      
+                       revenue=float(row['sell_price'])
+                       total_revenue+=revenue
+           print(f'Revenue from {date_object.strftime("%B %Y")}:{total_revenue}')
+
+           #put the result in an excel document
+           data_object_1=date_object.strftime("%B %Y")
+           #create a dynamic dictionary
+           result_dict={'Month':[data_object_1],'Revenue':[ total_revenue]}
+           #print(result_dict)#w?y
+
+           #create a DataFrame
+           df=pd.DataFrame(result_dict)
+           #Export to Excel
+           df.to_excel('revenue_report.xlsx', index=False)
+      return 
+
+# 30 jan 2024 einde
+
 
 
 
