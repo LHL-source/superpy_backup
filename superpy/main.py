@@ -55,7 +55,10 @@ def main():
     #voeg de argumenten toe aan revenue_group
     revenue_group.add_argument("--yesterday", nargs='?',const="yesterday", help="Report revenue for yesterday")
     revenue_group.add_argument("--today",nargs='?',const="today", help="Report revenue for today")
-    revenue_group.add_argument("--date",nargs='?',const="2023-12", help="Report revenue for specific date(e.g.'2023-12')")
+    revenue_group.add_argument("--date", nargs='?', const="2023-12", help="Report revenue for a specific date (e.g., '2023-12')")
+    revenue_group.add_argument("--file_type_excel", nargs='?', const="xlsx", help="Specify the file type for the report (default is CSV)")
+    #old_1:revenue_group.add_argument("--date", "--file_type_excel", nargs='?', const=("2023-12", "xlsx"), help="Report revenue for a specific date (e.g., '2023-12') in revenue_report.xlsx")
+    #old_0:revenue_group.add_argument("--date",nargs='?',const="2023-12", help="Report revenue for specific date(e.g.'2023-12')")
 
     #definieer argument-groups voor (report) profit 
     profit_group=profit_parser.add_argument_group("Profit options")
@@ -98,11 +101,13 @@ def main():
                elif args.yesterday:
                    revenu_yesterday(args.yesterday)
                elif args.date:
-                   revenu_date(args.date)  
+                   print('l 102:args',args)  # Add this line to check the structure of the args object
+                   revenu_date(args.date, args.file_type_excel)
+                   #old:revenu_date(args.date)  
 
            elif args.report_command=='profit':
                report_profit_today(args.today)
 
 if __name__ == "__main__":
     main()
-#30 jan 2024 einde
+#2 feb 2024 einde

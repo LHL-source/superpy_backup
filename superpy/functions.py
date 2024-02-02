@@ -463,7 +463,8 @@ def report_profit_today(today):#type(today)=string
       return
 
 sold_file_path=os.path.join('data', 'sold.csv')
-def revenu_date(date):#w?y
+def revenu_date(date,file_type_excel):#w?y
+      print('into function.py line 467')
       date_object=datetime.strptime(date,'%Y-%m')#w?y convert string into datetime object
       #read the sold.csv
       with open (sold_file_path,'r') as sold_file:#w?y
@@ -490,7 +491,7 @@ def revenu_date(date):#w?y
            df.to_excel('revenue_report.xlsx', index=False)
       return 
 
-# 30 jan 2024 einde
+# 2 feb 2024 einde
 
 
 
