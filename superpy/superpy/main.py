@@ -55,8 +55,9 @@ def main():
     #voeg de argumenten toe aan revenue_group
     revenue_group.add_argument("--yesterday", nargs='?',const="yesterday", help="Report revenue for yesterday")
     revenue_group.add_argument("--today",nargs='?',const="today", help="Report revenue for today")
-    revenue_group.add_argument("--date",nargs='?',const="2023-12", help="Report revenue for specific date(e.g.'2023-12')")
-
+    revenue_group.add_argument("--date", nargs='?', const="2023-12", help="Report revenue for a specific date (e.g., '2023-12')")
+    revenue_group.add_argument("--file_type_excel", nargs='?', const="xlsx", help="Specify the file type for the report (default is CSV)")
+    
     #definieer argument-groups voor (report) profit 
     profit_group=profit_parser.add_argument_group("Profit options")
     #voeg de argumenten toe aan profit_group
@@ -98,11 +99,11 @@ def main():
                elif args.yesterday:
                    revenu_yesterday(args.yesterday)
                elif args.date:
-                   revenu_date(args.date)  
-
+                   revenu_date(args.date, args.file_type_excel)
+                   
            elif args.report_command=='profit':
                report_profit_today(args.today)
 
 if __name__ == "__main__":
     main()
-#30 jan 2024 einde
+#4 feb 2024 einde
