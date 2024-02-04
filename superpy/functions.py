@@ -389,7 +389,6 @@ def  report_now(now):
      return    
 
 def report_yesterday(yesterday):
-      print('function.py, report_yesterday() ')
       advance_time(-1)
       report_now(yesterday)
       return
@@ -491,7 +490,7 @@ def revenu_date(date,file_type_excel):#w?y
            df.to_excel('revenue_report.xlsx', index=False)
       return 
 
-# 2 feb 2024 einde
+# 4 feb 2024 einde
 
 
 
