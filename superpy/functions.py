@@ -106,6 +106,7 @@ file_path=os.path.join('data','bought.csv')
 internal_date_file_path=os.path.join('data', 'internal_date.csv')
 def add_buy_product(product_name,buy_price,expiration_date,):
   
+  #open en leest bestand:internal_date.csv
   with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
               existing_content=list(reader)
@@ -117,7 +118,7 @@ def add_buy_product(product_name,buy_price,expiration_date,):
  
     maximum=0
     for eachRow in rows:
-        #de waarde/value van id is een string conver naar een integer 
+        #de waarde/value van id is een string convert naar een integer 
         id_int=int(eachRow['id'])
         if id_int > maximum:
             maximum =id_int
@@ -145,50 +146,44 @@ def add_buy_product(product_name,buy_price,expiration_date,):
   return
 
 
-#here under the function for "add_sold_product"#w?
+#here under the function for "add_sold_product"
 sold_file_path=os.path.join('data', 'sold.csv')
 bought_file_path=os.path.join('data', 'bought.csv')
 internal_date_file_path=os.path.join('data', 'internal_date.csv')
 
-def add_sold_product(product_name,sell_price):#command :product_name type : string
+def add_sold_product(product_name,sell_price):
       
-      #on internal_date.csv
+      
       with open(internal_date_file_path,'r',newline='')as file:
               reader=csv.DictReader(file)
-              existing_content=list(reader)#w?y
-              internal_date_value= existing_content[0]['internal_date']#w?y string
+              existing_content=list(reader)
+              internal_date_value= existing_content[0]['internal_date']
               
       #step 1:open file sold.csv and read it
-      with open (sold_file_path,'r') as sold_file:#w?y
-           sold_reader= csv.DictReader(sold_file)#w?y
-           sold_rows=list(sold_reader)#w?y
+      with open (sold_file_path,'r') as sold_file:
+           sold_reader= csv.DictReader(sold_file)
+           sold_rows=list(sold_reader)
            
         
            #step 2: made for sold.csv value of id which will cumulate automatically
            maximum = 0
-           for each_sold_Row in sold_rows:#w?yes
+           for each_sold_Row in sold_rows:
                #convert sold id to integer
                sold_id_convert_to_integer=int(each_sold_Row['id'])
                if sold_id_convert_to_integer >  maximum:
-                  maximum= sold_id_convert_to_integer#w?y
-           new_sold_row_id= maximum + 1#w?y
+                  maximum= sold_id_convert_to_integer
+           new_sold_row_id= maximum + 1
               
-      #stap 3 :open the bought.csv file #w? yes 
-      with open (bought_file_path, 'r') as bought_file:#w?y
+      #stap 3 :open the bought.csv file 
+      with open (bought_file_path, 'r') as bought_file:
            bought_reader=csv.DictReader(bought_file)
            bought_rows=list(bought_reader)
-
-           #for row in bought_rows:#w?y
-                 #print("L191 row", row)
-                 #print('L192 product_name',product_name)#command:product_name
-                 #print("L194 row ['product_name']",row ['product_name'])
-                 #print('L195 product_name of bought.csv ',type(product_name))#w?y type is string
-         
+      
            #Find relevant_rows[] in bought.csv
            relevant_rows=[]
            for row in bought_rows:
-               if row ['product_name']==product_name:#w?t
-                   relevant_rows.append(row)#w?y
+               if row ['product_name']==product_name:
+                   relevant_rows.append(row)
            if not relevant_rows:
                      print('ERROR 1: Product not in stock')
                      return
@@ -209,15 +204,14 @@ def add_sold_product(product_name,sell_price):#command :product_name type : stri
                
                try:
                   # Try converting the date string to datetime objects
-                   expiration_date_convert_date = string_to_datetime(row['expiration_date'], format='%Y-%m-%d')#w?y,object datetime
-                   internal_date_value_convert_toDate = string_to_datetime(internal_date_value, format='%Y-%m-%d')#w?y object datetime
+                   expiration_date_convert_date = string_to_datetime(row['expiration_date'], format='%Y-%m-%d')
+                   internal_date_value_convert_toDate = string_to_datetime(internal_date_value, format='%Y-%m-%d')
 
                except ValueError as e:
                    print(f"Error converting date string: {e}")
                    print(f"Problematic date string: {row['expiration_date']}") 
 
-               #get the expiration_date in bought.csv which is earlier than the internal_date  
-               #  min_exp_date_row=None  
+               #get the expiration_date in bought.csv which is earlier than the internal_date   
                if expiration_date_convert_date >=internal_date_value_convert_toDate:
                      min_exp_date_row=row
                      min_exp_date_row['id']
@@ -237,10 +231,10 @@ def add_sold_product(product_name,sell_price):#command :product_name type : stri
                      
            #add bought.csv coloms:product_name,buy_date,buy_price,expiration_date
            # to sold.csv 
-           add_product_name=row['product_name']#w?y type:string                  
-           add_buy_date=row['buy_date']#w?y type:string
-           add_buy_price=row['buy_price']#w?y type:string
-           add_expiration_date=row['expiration_date']#w?y type:string
+           add_product_name=row['product_name']                 
+           add_buy_date=row['buy_date']
+           add_buy_price=row['buy_price']
+           add_expiration_date=row['expiration_date']
                      
            new_row={
                           'id': new_sold_row_id,
@@ -252,20 +246,20 @@ def add_sold_product(product_name,sell_price):#command :product_name type : stri
                           'buy_price':add_buy_price,
                           'expiration_date':add_expiration_date
                     }        
-           sold_rows.append(new_row)#w?y
-           print('L257 rows ', sold_rows)#w?y good job
-           #
-      with open (sold_file_path,'w', newline='') as file:#w?yes wel done
+           sold_rows.append(new_row)
+           
+           
+      with open (sold_file_path,'w', newline='') as file:
                         writer=csv.DictWriter(file,fieldnames=sold_reader.fieldnames)
                         writer.writeheader()
                         writer.writerows(sold_rows)
 
-      #after write down in sold.csv, in bought.csv delete the same id because it is sold(gone) 
+      #after write down in sold.csv, in bought.csv delete the same id because it is sold 
       # this to prevent to sell the same product twice which is not possible
-      with open (bought_file_path, 'r') as bought_file:#w?y
+      with open (bought_file_path, 'r') as bought_file:
            bought_reader=csv.DictReader(bought_file)
-           bought_rows_list=list(bought_reader)#list
-           print(' L 234 type(bought_rows_list)',type(bought_rows_list))
+           bought_rows_list=list(bought_reader)
+           
            
            #define an empty list to store the rows we want to keep
            new_bought_rows=[]
@@ -332,15 +326,12 @@ def  report_now(now):
                          fruit_info={
                                      'product_name':fruit['product_name'],
                                      'expiration_date': exp_date_in_datetime,
-                                     'buy_price': float(fruit['buy_price'])  # Assuming buy_price is a float
+                                     'buy_price': float(fruit['buy_price'])  
                                      }
                          all_fruits.append(fruit_info)
      
      
-     for fruit in all_fruits:
-          #extract the relevant criteria
-          #criteria=(fruit['product_name'],fruit['expiration_date'])
-                  
+     for fruit in all_fruits:    
           #for each all_fruits list of dictionary, we extract the relevant criteria(product_name and expiration_date) and 
           #create a tuple called 'criteria'. This tuple will be used as a key in our 'fruit_counts'
           criteria=(fruit['product_name'],fruit['expiration_date'])
@@ -395,7 +386,6 @@ def report_yesterday(yesterday):
 
 sold_file_path=os.path.join('data', 'sold.csv')
 def revenue_today(today, print_result=True):
-    #print('function.py:revenu_today()',today)#w?y
     #get the internal_date
     today_date=get_internal_date()#wtype datetime
    
@@ -407,10 +397,10 @@ def revenue_today(today, print_result=True):
            sold_reader= csv.DictReader(sold_file)#w?y
            sold_rows=list(sold_reader)#w?y
     
-    #test the sold.csv data by a loop: get only the sell_date #w?y
+    #test the sold.csv data by a loop: get only the sell_date 
     for row in sold_rows:
           #convert the sell_date from string to datetime
-          sell_date_convert_datetime=string_to_datetime(row['sell_date'])#w?y type datetime
+          sell_date_convert_datetime=string_to_datetime(row['sell_date'])
           
           #check if sell_date_convert_datetime ==today_date
           if sell_date_convert_datetime ==today_date:
@@ -423,7 +413,7 @@ def revenue_today(today, print_result=True):
 def revenu_yesterday(yesterday):
       
       #use function advance_time()to set the internal_date one day back
-      yesterday_date=advance_time(-1)#w?y type datetime
+      yesterday_date=advance_time(-1)
       
       #invoke the function revenue_today() to calculate the revenue of yesterday
       revenue_today(yesterday,print_result=False)
@@ -433,46 +423,42 @@ def revenu_yesterday(yesterday):
 
 
 sold_file_path=os.path.join('data', 'sold.csv')
-def report_profit_today(today):#type(today)=string
+def report_profit_today(today):
       
       #get the internal_date
-      today_date=get_internal_date()#w y, type datetime
+      today_date=get_internal_date()
       
       #read the sold.csv
-      with open (sold_file_path,'r') as sold_file:#w?y
-           sold_reader= csv.DictReader(sold_file)#w?y
-           sold_rows=list(sold_reader)#w?y
+      with open (sold_file_path,'r') as sold_file:
+           sold_reader= csv.DictReader(sold_file)
+           sold_rows=list(sold_reader)
 
-      #open sol.csv file:
-      #initiate two variables:
       count_profit=0 
       total_profit=0
 
-      #read the data with a for/loop
       for row in sold_rows:
           #convert the sell_date from string to datetime
-          sell_date_convert_datetime=string_to_datetime(row['sell_date'])#w?y type datetime
+          sell_date_convert_datetime=string_to_datetime(row['sell_date'])
 
        
           if sell_date_convert_datetime== today_date:            
-                count_profit=float(row['sell_price'])-float(row['buy_price'])#w?y
-                total_profit=total_profit + count_profit#w?y, type float
+                count_profit=float(row['sell_price'])-float(row['buy_price'])
+                total_profit=total_profit + count_profit
       formatted_profit=round(total_profit,2)          
       print('Total profit of today ',formatted_profit) 
       return
 
 sold_file_path=os.path.join('data', 'sold.csv')
-def revenu_date(date,file_type_excel):#w?y
-      print('into function.py line 467')
-      date_object=datetime.strptime(date,'%Y-%m')#w?y convert string into datetime object
-      #read the sold.csv
-      with open (sold_file_path,'r') as sold_file:#w?y
-           sold_reader= csv.DictReader(sold_file)#w?y
-           #sold_rows=list(sold_reader)#w?y
+def revenu_date(date,file_type_excel):
+      date_object=datetime.strptime(date,'%Y-%m')
+      
+      with open (sold_file_path,'r') as sold_file:
+           sold_reader= csv.DictReader(sold_file)
+           
            total_revenue=0
            for row in sold_reader:
                  sell_date=datetime.strptime(row['sell_date'],'%Y-%m-%d')
-                 if sell_date.year==2023 and sell_date.month==12:#w?y
+                 if sell_date.year==2023 and sell_date.month==12:
                       
                        revenue=float(row['sell_price'])
                        total_revenue+=revenue
@@ -482,7 +468,6 @@ def revenu_date(date,file_type_excel):#w?y
            data_object_1=date_object.strftime("%B %Y")
            #create a dynamic dictionary
            result_dict={'Month':[data_object_1],'Revenue':[ total_revenue]}
-           #print(result_dict)#w?y
 
            #create a DataFrame
            df=pd.DataFrame(result_dict)
@@ -490,7 +475,7 @@ def revenu_date(date,file_type_excel):#w?y
            df.to_excel('revenue_report.xlsx', index=False)
       return 
 
-# 4 feb 2024 einde
+# 5 feb 2024 einde
 
 
 
