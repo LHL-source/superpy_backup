@@ -475,7 +475,7 @@ def revenu_date(date,file_type_excel):
            df.to_excel('revenue_report.xlsx', index=False)
       return 
 
-# 6 feb 2024 einde
+# 6 feb 2024 12.46u einde
 
 
 
